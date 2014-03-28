@@ -1,0 +1,4 @@
+termometro
+==========
+
+raspberry pi with:
