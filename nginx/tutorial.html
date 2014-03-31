@@ -1,0 +1,2345 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+        
+    
+       <!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xml:lang="en-US" lang="en"  >
+<head>
+           <title>Raspberry Pi. Python, NGINX and GPIO (The Darkside of the IMS Systems Progammer)</title>
+	
+
+					<!-- Copyright IBM Corp. 2013  All Rights Reserved.                    -->
+
+<!--[if IE 6]><script type="text/javascript">document.getElementsByTagName("html")[0].className+=" lotusui_ie lotusui_ie6";</script><![endif]-->
+<!--[if IE 7]><script type="text/javascript">document.getElementsByTagName("html")[0].className+=" lotusui_ie lotusui_ie7";</script><![endif]-->
+<!--[if IE 8]><script type="text/javascript">document.getElementsByTagName("html")[0].className+=" lotusui_ie lotusui_ie8";</script><![endif]-->
+<link rel="stylesheet" type="text/css" id="lotusBaseStylesheet" href="https://www.ibm.com/developerworks/community/connections/resources/web/_style?include=com.ibm.lconn.core.styles.oneui3/base/package3.css&etag=20140212.165906" appName="blogs" base="https://www.ibm.com/developerworks/community/connections/resources/web/" query="?version=oneui3&rtl=false&etag=20140212.165906" theme="default" defaultTheme="default" oneui="3"></link>
+<link rel="stylesheet" type="text/css" id="lotusSpritesStylesheet" href="https://www.ibm.com/developerworks/community/connections/resources/web/_style?include=com.ibm.lconn.core.styles.oneui3/sprites.css&etag=20140212.165906"></link>
+<link rel="stylesheet" type="text/css" id="lotusThemeStylesheet" href="https://www.ibm.com/developerworks/community/connections/resources/web/_lconntheme/default.css?version=oneui3&rtl=false&etag=20140212.165906"></link>
+<link rel="stylesheet" type="text/css" id="lotusAppStylesheet" href="https://www.ibm.com/developerworks/community/connections/resources/web/_lconnappstyles/default/blogs.css?version=oneui3&rtl=false&etag=20140212.165906"></link>
+<!-- Copyright IBM Corp. 2013  All Rights Reserved.                    -->
+
+	  	
+  		  		      	<link rel="stylesheet" type="text/css" href="/developerworks/community/blogs/roller-ui/styles/.css?version=20140212.165906" />
+	    		
+    <script type="text/javascript">
+window.currentLogin={};
+window.__security_nonce='';
+
+var http;
+if(typeof XMLHttpRequest == 'undefined') http=new ActiveXObject("Microsoft.XMLHTTP");
+else http=new XMLHttpRequest();
+http.open('GET', '/developerworks/community/blogs/roller-services/json/authcheck?entry=d0fa56a0-0a44-4689-929a-8bca36a001f2', false);
+http.send(null);
+var t=http.responseText;
+if(http.status == 200 && t && t.length>4 && t.substring(0,5)=='nonce'){
+		eval('window.currentLogin={'+t+'}');
+		window.__security_nonce=window.currentLogin.nonce;
+}
+</script>
+
+<script type="text/javascript">
+	var appName = "blogs";	// valid values: profile, communities, blogs, bookmarks, activities
+	var microfmtTagScope = "span,h5";
+	
+		   var bidir = "ltr";
+		
+	function getLoginRedirectURL(url) {
+      if(!url) url = window.location.href;
+      if(url[0] != '/') {
+          var t = url;
+          
+          var protocol = 'http://';
+          var idx = t.indexOf(protocol);
+          if(idx == -1) {
+              protocol = 'https://';
+              idx = t.indexOf(protocol);
+          }
+          if(idx != -1) {
+              t = t.substring(protocol.length);
+              idx = t.indexOf('/');
+              t = idx == -1 ? '/' : t.substring(idx);
+              if(t.indexOf('/developerworks/community/blogs') == 0)  url = t;
+          }
+      }
+      return '/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=' + encodeURIComponent(url);
+    }
+</script>
+  
+  <script type="text/javascript" src="https://www.ibm.com/developerworks/community/connections/bookmarklet/static/script/20140212.165906/feedMarklet.js?lang=en"></script>	
+  
+<script type="text/javascript">
+    var BlogsBaseUrl = "/developerworks/community/blogs";
+    var langParaValue = "en";
+    var ratings = {};
+</script>
+    		
+<link rel="shortcut icon" href="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.oneui3.styles/imageLibrary/Icons/ComponentsGray/BlogsGray.ico" type="image/x-icon" />	
+
+
+  <style type="text/css">
+   
+    
+        
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------------------------------------------
+   CSS
+---------------------------------------------------------------------- */
+
+
+
+/***************************** CSS *************************************/
+
+    
+  </style> 
+  
+              <link rel="alternate" type="application/atom+xml" title="Atom Entries"  href="https://www.ibm.com/developerworks/community/blogs/dougielawson/feed/entries/atom?lang=en" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Comments" href="https://www.ibm.com/developerworks/community/blogs/dougielawson/feed/comments/atom?lang=en" />
+            <link rel="replies" type="application/atom+xml" title="Atom Entry Comments"  href="" />
+              <link rel="service" class="preferred" type="application/atomsvc+xml" title="Atom Publishing Protocol" href="https://www.ibm.com/developerworks/community/blogs/api" />
+            
+	  
+        
+                                                                                            
+         
+       <meta name="IBM.WTMCategory" scheme="IBM_WTMCategory" content="SOFDCBLGZZ"/>
+
+	<link type="text/css" title="www" rel="stylesheet" href="//1.www.s81c.com/common/v17/css/www.css"/>  
+		<link rel="stylesheet" href="//www.ibm.com/developerworks/lc/html/dw-mf-lc.css" type="text/css" title="www" />
+	<link rel="stylesheet" href="//www.ibm.com/developerworks/lc/html/dw-ic-global.css" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="title" content="Raspberry Pi. Python, NGINX and GPIO (The Darkside of the IMS Systems Progammer)" />
+     <meta name="abstract" content="There&#39;s a common theme on Raspberry&nbsp;Pi&nbsp;Forum where folks want to be able to control the General Purpose Input/Output (GPIO) pins from a web page. 
+ 
+	That sounds simple and fundamentally it is simple. But unless you run everything with root privileges it&#39;s slightly less simple than it should be. So my design is a simple back-end server program that runs as root and gets a message sent to it from a web common gateway interface (CGI) program to control the pins. The CGI program runs with restricted privileges as user www-data. The message is passed from CGI to server by MQTT (using the freely available server Mosquitto). 
+..." /> 
+     <meta name="description" content="There&#39;s a common theme on Raspberry&nbsp;Pi&nbsp;Forum where folks want to be able to control the General Purpose Input/Output (GPIO) pins from a web page. 
+ 
+	That sounds simple and fundamentally it is simple. But unless you run everything with root privileges it&#39;s slightly less simple than it should be. So my design is a simple back-end server program that runs as root and gets a message sent to it from a web common gateway interface (CGI) program to control the pins. The CGI program runs with restricted privileges as user www-data. The message is passed from CGI to server by MQTT (using the freely available server Mosquitto). 
+..." /> 
+     <meta name="keywords" content="" /> 
+     <meta name="DC.Date" scheme="iso8601" content="2013-11-17 14:15:32.0" />
+     <meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT915"/>
+     <link rel="canonical" href="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio" /> 
+  <meta name="Owner" content="dW Information/Raleigh/IBM"/>
+<meta name="DC.Language" scheme="rfc1766" content="en"/>
+<meta name="IBM.Country" content="ZZ"/>
+<meta name="Security" content="Public"/>
+<meta name="IBM.SpecialPurpose" content="SP001"/>
+<meta name="Source" content="Blog Template v5.0"/> 
+<meta name="author" content="dougielawson"/> 
+<meta name="robots" content="index,follow,archive,snippet,noodp"/> 
+<meta name="Revisit-After" content="5 days"/>  
+
+<meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="ZZ999"/>
+<meta name="DC.Rights" content="Copyright IBM Corporation 2012"/>
+<meta name="IBM.Effective" scheme="W3CDTF" content="2012-01-31"/>
+<meta name="gwt:property" content="locale=en">
+
+
+	
+</head>
+<body class="blog     lotusui 
+ lotusui30dojo lotusui30_body lotusui30_fonts lotusui30 lotusSpritesOn">
+<label id="TemplateVersion" style="display:none">2.5</label>
+<a id="REFRESH_URL" href="#" style="display:none"></a>
+<div id="lotusFrame" class="lotusFrame lotusui30_layout">
+<div role="banner">
+<div id="lotusBanner" class="lotusBanner">
+<script type="text/javascript">
+   if(self!=top){
+      try {
+         // reset location if in different host.
+         // per Same Origin Policy, try to get top location attributes, 
+         // will get permission denied if in different origin.
+         if (self.location.hostname!=top.location.hostname)
+            top.location=self.location;
+      }catch(e){
+         // reset location if in different origin
+         top.location=self.location;
+      }
+   }
+</script>
+
+    	    	    	    	<!--<link rel="stylesheet" href="//dw1.s81c.com/developerworks/css/dw-lc/dwcommon-2009-09.css" type="text/css" />
+<link rel="stylesheet" href="//dw1.s81c.com/developerworks/css/dw-mf/dw-mf2012-01.css" type="text/css" title="www" />
+<link rel="stylesheet" href="//dw1.s81c.com/developerworks/css/dw-lc/dw-mf-lc.css"
+    type="text/css" title="www" />
+<link rel="stylesheet"
+    href="//dw1.s81c.com/developerworks/css/dw-lc/dw-mf2012-01-lc.css"
+    type="text/css" title="www" />-->
+<div id="ibm-masthead"></div>
+			<!-- SITE MON : START (DO NOT DELETE) -->
+			<!-- developerWorks monitoring token -->
+			<!-- SITE MON : END (DO NOT DELETE) -->	
+   	    	    	    	
+
+
+
+<div class="lotusRightCorner" style="display: none;">
+   <div class="lotusInner"><div class="lotusLogo" id="lotusLogo"><span class="lotusAltText">IBM Connections</span></div><ul class="lotusInlinelist lotusUtility lotusNowrap" id="headerMenuContainer"><li class="lotusFirst" id="headerUserText" style="display: none;"><span id="logoutLabel" aria-label="Log in / log out"><a class="lotusUser" id="headerUserName"
+                      onmouseover="dojo.require('lconn.core.header');lconn.core.header.menuMouseover(this);"
+                      onclick="dojo.require('lconn.core.header');lconn.core.header.menuClick(this);"
+                      onfocus="dojo.require('lconn.core.header');lconn.core.header.menuFocus(this);"
+                      role="button" 
+                      _lconn_menuid="lconnheadermenu-user"
+                      aria-label="Current user "
+                      src="/developerworks/community/blogs/static/20140212.165906!en/nav/templates/menu/user.jsp?appName=blogs&username=&userid="
+                      href="javascript:;"> <span id="usernameText"></span> <img role="presentation" alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">&#9660;</span></a></span></li><li class="shareboxLi" id="headerSharebox" class="lotusFirst" style="display: none;"><a class="lotusBannerBtn" href="javascript:;" onclick="dojo.require('net.jazz.ajax.xdloader');net.jazz.ajax.xdloader.load_async('com.ibm.social.sharebox.dialog', dojo.hitch(this, function() {com.ibm.social.sharebox.show();}));" aria-haspopup="true" role="button">Share</a></li><li id="languageSelectorText" style="display: none;"></li><li id="headerHelpLi" ><a role="button" aria-label="Open help window" href="javascript:lconn.blogs.utils.openHelpWindow();" id="headerHelpLink"><img role="presentation" alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="iconsOther16 iconsOther16-bannerHelpNormal16" /><span class="lotusAltText">?</span></a></li><li id="logoutLi"><span id="loginLabel" role="region" aria-label="Log in / log out"><a id="logoutLink"  href="https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2Fdougielawson%2Fentry%2Fraspberry_pi_python_nginx_and_gpio%3Flang%3Den">Log In</a></span></li><li><span class="lotusBranding"><img src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="IBM" class="lotusIBMLogo" /><span class="lotusAltText">IBM</span></span></li></ul><ul class="lotusInlinelist lotusLinks" role="navigation" aria-label="Connections"><li id="lotusBannerHomepage" class="lotusFirst "><a href="https://www.ibm.com/developerworks/community/homepage/">Home</a></li><li id="lotusBannerProfiles" class=" "><a onmouseover="dojo.require('lconn.core.header');lconn.core.header.menuMouseover(this);" 
+                      onclick="dojo.require('lconn.core.header');lconn.core.header.menuClick(this);" 
+                      onfocus="dojo.require('lconn.core.header');lconn.core.header.menuFocus(this);" 
+                      role="button" 
+                      _lconn_menuid="lconnheadermenu-people"
+                      aria-label="Profiles" 
+                      src="/developerworks/community/blogs/static/20140212.165906!en/nav/templates/menu/people.jsp"
+                      href="https://www.ibm.com/developerworks/community/profiles/"
+                      errormessage="Profiles is not available">Profiles <img role="presentation" alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">&#9660;</span></a></li><li id="lotusBannerCommunities" class=" "><a id="lotusBannerCommunitiesLink" 
+                      onmouseover="dojo.require('lconn.core.header');lconn.core.header.menuMouseover(this);" 
+                      onclick="dojo.require('lconn.core.header');lconn.core.header.menuClick(this);" 
+                      onfocus="dojo.require('lconn.core.header');lconn.core.header.menuFocus(this);" 
+                      role="button" 
+                      _lconn_menuid="lconnheadermenu-communities"
+                      aria-label="Communities" 
+                      src="/developerworks/community/blogs/static/20140212.165906!en/nav/templates/menu/communities.jsp"
+                      href="https://www.ibm.com/developerworks/community/groups/"
+                      errormessage="Communities is not available">Communities <img role="presentation" alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">&#9660;</span></a></li><li id="lotusBannerApps" class=" lotusSelected"><a onmouseover="dojo.require('lconn.core.header');lconn.core.header.menuMouseover(this);" 
+                   onclick="dojo.require('lconn.core.header');lconn.core.header.menuClick(this);" 
+                   onfocus="dojo.require('lconn.core.header');lconn.core.header.menuFocus(this);" 
+                   role="button" 
+                   _lconn_menuid="lconnheadermenu-apps"
+                   aria-label="Apps" 
+                   src="/developerworks/community/blogs/static/20140212.165906!en/nav/templates/menu/apps.jsp"
+                   href="javascript:;"
+                   errormessage="Blogs is not available">Apps <img role="presentation" alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">&#9660;</span></a></li><li id="lotusBannerModeration" style="display:none" class=""><a href="https://www.ibm.com/developerworks/community/moderation/">Moderation</a></li></ul></div></div>
+ 
+</div><!--end pageHeader-->
+<script type="text/javascript" language="Javascript">
+var refresh_url = document.getElementById('REFRESH_URL');
+var this_url = window.location.toString();
+var this_url_anchor_idx = this_url.lastIndexOf('#');
+if(this_url_anchor_idx == -1) {
+    refresh_url.href = this_url;
+}
+else {
+	refresh_url.href = this_url.substring(0, this_url_anchor_idx);
+}
+
+var blogsUser = currentLogin.name ? currentLogin.name : null;
+</script>
+
+
+
+    
+
+
+
+
+        
+<script>
+	function showFeedTip(focusId) {
+   		showDialog("Right-click and select Copy Shortcut to get the URL to this feed.", focusId);//alert
+	}
+
+	function jumpToPage(to, max) {
+		if(to > max) {
+			to = max;
+		}
+
+		if(to < 1) {
+			to = 1;
+		}
+
+		to = to - 1;
+		var base = "https://www.ibm.com/developerworks/community/blogs/dougielawson?sortby=0&maxresults=15&lang=en";
+		window.location = base + "&page=" +  to;
+	}
+
+	function jumpToPageForComment(to, max) {
+		if(to > max) {
+			to = max;
+		}
+
+		if(to < 1) {
+			to = 1;
+		}
+
+		to = to - 1;
+		var base = "https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio?maxresults=15&lang=en";
+		window.location = base + "&page=" +  to;
+	}
+</script>
+
+<div id="lotusTitleBar" class="lotusTitleBar"><div class="lotusRightCorner"><div class="lotusInner">
+		    <div role="navigation" aria-label="Blogs Views">
+<a id="tabNavigation" name="tabNavigation"></a>
+<ul class="tabs lotusTabs aria_toolbar" role="toolbar" aria-label="Blogs Views"  aria-controls="lotusMain">
+    <li  role="presentation">
+                 <a role="button"  aria-pressed="false"  href="/developerworks/community/blogs/roller-ui/myblogs/edit?lang=en">My Blogs</a>
+           </li>
+    <li  role="presentation">
+                 <a role="button"  aria-pressed="false"  href="/developerworks/community/blogs/roller-ui/homepage?lang=en">Public Blogs</a>
+           </li>
+    <li  role="presentation">
+                 <a role="button"  aria-pressed="false"  href="/developerworks/community/blogs/roller-ui/myupdates?lang=en">My Updates</a>
+           </li>
+	<script language="javascript">
+	 	 if(currentLogin.globalAdmin) {
+	     document.write('<li role="presentation"><a role="button" aria-pressed="false" href="/developerworks/community/blogs/roller-ui/admin/rollerConfig.do?method=edit&lang=en">Administration</a></li>');
+	 }
+	</script>
+</ul>
+</div>
+	
+					
+	<div id="global_search_container"></div>
+<script type="text/javascript">
+<!--
+function isExistInArray(array, value) {
+	for (var i=0; i < array.length; i++) {
+		if (array[i] == value) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function initialSearchBar() {
+                                                    
+    var _localOptions = [];
+        _localOptions.push({label: 'Public Blogs', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'public_blogs'  });
+    _localOptions.push({label: 'Public Blog Entries', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'public_entries'  });
+            	_localOptions.push({label: 'My Blog Entries', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'my_blogs'  });
+    	_localOptions.push({label: 'This Blog', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'this_blog' , defaultOption: true  });
+    	_localOptions.push({label: 'This Blog\'s Comments', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'this_blog_comments'  });
+        //ideationblog
+        
+                    
+    var _globalOptions = [];
+     _globalOptions.push({label: 'Activities', feature: 'activities'}); 	 _globalOptions.push({label: 'Bookmarks', feature: 'dogear'}); 	 _globalOptions.push({label: 'Communities', feature: 'communities'});      _globalOptions.push({label: 'Files', feature: 'files'}); 	 _globalOptions.push({label: 'Forums', feature: 'forums'}); 	 _globalOptions.push({label: 'Profiles', feature: 'profiles'}); 	 _globalOptions.push({label: 'Wikis', feature: 'wikis'}); 
+    var searchBar = new lconn.core.SearchBar({
+        localOptions: _localOptions,
+        globalOptions: [{}],
+        searchContextPath: 'https://www.ibm.com/developerworks/community/search',
+        lblSearch:         'Search',
+        lblSelectScope:    'Select Search Scope',
+        lblAllConnections: 'developerWorks community',
+        lblAdvanced:       'Advanced',
+        thirdPartySearchEngines: lconn_core_thirdPartySearchEngines,
+                onSubmit: function() {
+        	var str = this.getValue();
+    		str = dojo.string.trim(str); // trim it
+    		if (!str) {
+        		return false;
+    		}
+
+        	var selectedOption = this.selectedOption;
+        	if (selectedOption.feature || selectedOption.action) {
+        		return true;
+    		}
+        	else {
+        	    var t = ['public_blogs', 'public_entries', 'my_blogs', 'public_blog_comments', 'this_blog', 'this_blog_comments','public_ideationblogs', 'public_ideas', 'my_ideationblogs', 'public_ideationblog_comments', 'this_ideationblog', 'this_ideationblog_comments'];
+        	    if(!selectedOption.scope || isExistInArray(t, selectedOption.scope) == -1) {
+        	        selectedOption.scope = 'this_blog';
+        	    }
+        		switch( selectedOption.scope ){
+		            case "public_blogs":
+		                var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=blog&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "public_entries":
+		            	var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=entry&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "my_blogs":
+		            	var loc = '/developerworks/community/blogs/roller-ui/myblogs/edit?lang=' + langParaValue + '&q=' + encodeURIComponent(str) + '&search=true&t=entry';
+		            	window.location=loc;
+		                break;
+		            case "public_blog_comments":
+		            	var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=entry&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		            	break;
+		            case "this_blog":
+		            	var loc = '/developerworks/community/blogs/dougielawson/search?lang=' + langParaValue + '&t=entry&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "this_blog_comments":
+		            	var loc = '/developerworks/community/blogs/dougielawson/search?lang=' + langParaValue + '&t=entry&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            //ideationblog support
+		            case "public_ideationblogs":
+		                var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=ideationblog&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "public_ideas":
+		            	var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=idea&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "my_ideationblogs":
+		            	var loc = '/developerworks/community/blogs/roller-ui/myblogs/edit?lang=' + langParaValue + '&q=' + encodeURIComponent(str) + '&search=true&t=idea';
+		            	window.location=loc;
+		                break;
+		            case "public_ideationblog_comments":
+		            	var loc = '/developerworks/community/blogs/home/search?lang=' + langParaValue + '&t=idea&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		            	break;
+		            case "this_ideationblog":
+		            	var loc = '/developerworks/community/blogs/dougielawson/search?lang=' + langParaValue + '&t=idea&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "this_ideationblog_comments":
+		            	var loc = '/developerworks/community/blogs/dougielawson/search?lang=' + langParaValue + '&t=idea&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            default:
+		                break;
+		        }
+		        return false;
+        	}
+        }
+    }, dojo.byId('global_search_container'));
+}
+//-->
+</script>
+</div></div></div><!--end titleBar-->
+
+<script type="text/javascript">
+var ibmConfig = {
+   serviceName: "blogs",
+   proxyURL: "/developerworks/community/blogs/ajaxProxy/",
+   contextRootEnabler: "/developerworks/community/blogs",
+   versionStamp: "20140212.165906"
+};
+var baseProtocol = "https";
+var baseHost = "www.ibm.com";
+var basePath = "/developerworks/community/connections/resources";
+var needProxy = (baseHost != window.location.host || baseProtocol+":" != window.location.protocol);
+var djConfig = {
+   isDebug: false,
+   baseUrl: (needProxy ? (ibmConfig.proxyURL + encodeURIComponent(baseProtocol) + "/" + encodeURIComponent(baseHost)) : (baseProtocol + "://" + baseHost)) + basePath + "/web/dojo/",
+   locale: "en",
+   dojoBlankHtmlUrl: "/developerworks/community/blogs/static/20140212.165906/nav/blankIE.html",
+   blankGif: "https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906",
+   useCommentedJson: true,  
+   proxy: "/developerworks/community/blogs/ajaxProxy",
+   localizationComplete: true
+};
+</script>
+<script type="text/javascript">
+var netJazzAjaxConfig = {
+    base: "https://www.ibm.com/developerworks/community/connections/resources",
+    skipStyles: true,
+    params: "etag=20140212.165906&lang=en"
+};
+CKEDITOR_BASEPATH = window.CKEDITOR_BASEPATH || "https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.oneui.ckeditor/editor/"; 
+</script>
+<script type="text/javascript">djConfig.parseOnLoad=true;</script>
+<script type="text/javascript" src="https://www.ibm.com/developerworks/community/connections/resources/web/_js/?include=dojo.dojo.js~&etag=20140212.165906&lang=en"></script>
+<script type="text/javascript" src="https://www.ibm.com/developerworks/community/connections/resources/web/_js/?include=lconn.core.bundle_common.js~&exclude=dojo.dojo.js~&etag=20140212.165906&lang=en"></script>
+<script type="text/javascript" src="https://www.ibm.com/developerworks/community/connections/resources/web/_js/?include=lconn.blogs.blogsApp.js~&exclude=dojo.dojo.js~lconn.core.bundle_common.js~&etag=20140212.165906&lang=en"></script>
+
+<script type="text/javascript">
+	dojo.addOnLoad(function(){
+                /*// run the parser.
+                	                var p=dojo.parser; var d=document;
+	                	                if(d.getElementById('tagnavform')) {
+	                	p.parse(d.getElementById('tagnavform'));
+	                }
+	                	                if(d.getElementById('tagSliderGradient')) {
+	                	p.parse(d.getElementById('tagSliderGradient'));
+	                }
+	                	                if(d.getElementById('simpleSearchForm')) {
+	                	p.parse(d.getElementById('simpleSearchForm'));
+	                }
+	                	                if(d.getElementById('actionmenu_moreactions_container')) {
+	                	p.parse(d.getElementById('actionmenu_moreactions_container'));
+	                }
+	                	                if(d.getElementById('actionmenu_moreactions_container_anonymous')) {
+	                	p.parse(d.getElementById('actionmenu_moreactions_container_anonymous'));
+	                }
+	                	                if(d.getElementById('blogsActionBar')) {
+	                	p.parse(d.getElementById('blogsActionBar'));
+	                }
+	                                                */
+          });
+
+	document.onclick = function () {
+		if (dojo.isIE)
+			MenuPopup.returnFocusElement = false;
+		MenuPopup.hideMenu();
+	};
+	document.onkeyup = function ( event ) {
+		MenuPopup.hideOnKeypress( event );
+	};
+</script>
+
+<div class="lotusPlaceBar lotusTitleBarExt"><div class="lotusRightCorner"><div class="lotusInner">
+	<h2 class="blogsWrapText">The Darkside of the IMS Systems Progammer</h2>
+    <ul class="lotusRight lotusInlinelist lotusActions" id="login_participate_link" style="display:none;">
+    	<li class="lotusFirst">
+			<a href="javascript:lconn.blogs.utils.loginAction();">Log in</a> to participate
+    	</li>
+	</ul>
+	<ul aria-label="Action bar" role="toolbar" id="blogsActionBar" class="aria_toolbar lotusRight lotusInlinelist lotusActions">
+
+	
+			<script language="javascript">
+		if(currentLogin.auth && !currentLogin.followOn)
+			document.write('<li class="lotusFirst"><a role="button" aria-label="Follow this Blog" class="blogsFollowBtn" href="javascript:;" onclick="followAction(\'6e326c25-df5f-4c2f-b2ee-d066d4251095\', \'follow\'); ">Follow this Blog</a></li>');
+		else if(currentLogin.auth && currentLogin.followOn)
+			document.write('<li class="lotusFirst"><a role="button" aria-label="Stop Following this Blog" class="blogsFollowBtn" href="javascript:;" onclick="followAction(\'6e326c25-df5f-4c2f-b2ee-d066d4251095\', \'unfollow\');">Stop Following this Blog</a></li>');
+		</script>
+	
+	<script language="javascript">
+		if(!currentLogin.auth)
+			dojo.byId("login_participate_link").style.display="block";
+			
+		function followAction(id, action) {
+			dojo.xhrPost({
+				url: '/developerworks/community/blogs/roller-services/json/following',
+				handleAs: 'json',
+				postData: 'version=300&uuid='+id+'&action='+action+'&dangerousurlnonce='+window.__security_nonce,
+				load: function (ret) {
+					if(!ret.success) {
+						if('session timeout' == ret.error) {
+							lconn.blogs.utils.refreshSecurityNonce(ret.nonce);
+							var errMsg = "We were unable to process your request due to a session timeout.  Please try again.";
+							lconn.blogs.utils.showMessage('lotusContent', 'followMessage', errMsg, 'Error icon', 'error');
+						} else {
+							var errMsg = "Following action failed.";
+							lconn.blogs.utils.showMessage('lotusContent', 'followMessage', errMsg, 'Error icon', 'error');
+						}
+					}
+					if(ret.success) {
+						var blogsFollowBtn = dojo.query("[class='blogsFollowBtn']", dojo.byId("blogsActionBar"))[0];
+						if(typeof (blogsFollowBtn) != "undefined"){
+							if(action == "follow"){
+								blogsFollowBtn.innerHTML = 'Stop Following this Blog';
+							    dojo.attr(blogsFollowBtn, {"aria-label": 'Stop Following this Blog'});
+								blogsFollowBtn.onclick= function(){followAction(id, 'unfollow');};
+							}
+							else{
+								blogsFollowBtn.innerHTML = 'Follow this Blog';
+							    dojo.attr(blogsFollowBtn, {"aria-label": 'Follow this Blog'});
+								blogsFollowBtn.onclick= function(){followAction(id, 'follow');};
+							}
+						}
+						if(typeof (blogsFollowItem) != "undefined"){
+							var blogsFollowItem = blogsFollowDropDownMenu.getChildren()[0];
+							var itemLabel;
+							var itemAction;
+							if(action == "follow"){
+								itemLabel = 'Stop Following this Blog';
+								itemAction = function() {followAction(id, 'unfollow');};
+							}
+							else{
+								itemLabel = 'Follow this Blog';
+								itemAction = function() {followAction(id, 'follow');};
+							}
+							dojo.attr(blogsFollowItem, {"label": itemLabel});
+							dojo.attr(blogsFollowItem, {"onClick": itemAction});
+						}
+						if(action == "follow")
+							lconn.blogs.utils.showMessage('lotusContent', 'followMessage', 'You are following this blog and will receive updates about it.', 'Confirmation icon');
+						else
+							lconn.blogs.utils.showMessage('lotusContent', 'followMessage', 'You stopped following this blog and will no longer receive updates about it.', 'Confirmation icon');
+					}
+				},
+				error: function () {
+					lconn.blogs.utils.showMessage('lotusContent', 'followMessage', 'Following action failed.', 'Error icon', 'error');
+				}
+			});
+		}
+	</script>
+
+		  		</ul><!--end bntContainer-->
+</div></div></div><!--end placebar-->
+
+<script>
+	var flagInappropriateCommentForm = {
+        className: "lotusForm",
+        action: "/developerworks/community/blogs/roller-services/json/flag_as_inappropriate",
+        name: "flagCommentForm",
+        formContent: '<form class="lotusForm2" action="" name="flagCommentForm" role="application" style="background-color: transparent;">'+
+        '<div name="error_messages" class="lotusMessage" role="alert" style="display:none">'+
+		'	<img class="lconnSprite lconnSprite-iconError16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Error icon" /><span class="lotusAltText">Error icon</span><span name="message"></span>'+
+		'</div>'+
+		'<div name="warning_messages" class="lotusMessage lotusWarning" role="alert" style="display:none">'+
+		'	<img class="lconnSprite lconnSprite-iconWarning16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Warning icon" /><span class="lotusAltText">Warning icon</span><span name="message"></span>'+
+		'</div>'+
+		'<div name="info_messages" class="lotusMessage lotusInfo" role="alert" style="display:none">'+
+		'	<img class="lconnSprite lconnSprite-iconAttention16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Information icon" /><span class="lotusAltText">Information icon</span><span name="message"></span>'+
+		'</div>'+
+        '<input type="hidden" name="dangerousurlnonce" value=""/>'+
+		'<input type="hidden" name="lang" value="en" />'+
+		'<input type="hidden" name="version" value="250" />'+
+		'<input type="hidden" name="objectType" value="comment" />'+
+		'<input type="hidden" name="objectId" value=""/>'+
+		'<div class="lotusFormBody">'+
+				'<div class="lotusFormField">'+
+		'	<label for="flag_comment">Provide a reason for flagging this comment (optional):</label>'+
+		'	<div><textarea id="flag_comment" title="Provide a reason for flagging this comment (optional):" name="comment" rows="10" style="width:300px;"></textarea></div>'+
+		'</div>'+
+		'</div><!-- end form body -->'+
+		'</form>',
+		_form: null,
+        success: false,
+
+        isSuccess: function(){
+        	return this.success;
+        },
+
+		init: function(commentId) {
+			if(this._form != null){
+				this._form = null;
+	        }
+			var div = document.createElement('div');
+			div.innerHTML = this.formContent;
+			this._form = dojo.query("form[name='flagCommentForm']", div)[0];
+	        this.reset();
+	        this._form.action = this.action;
+        	this._form.objectId.value = commentId;
+        	this.success = false;
+	    },
+
+	    getForm: function(){
+	    	return this._form;
+	    },
+
+	    clearMessage: function(){
+	    	var mt = ['error', 'warning', 'info'];
+	    	for(var i=0; i<mt.length; i++) {
+	    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', this._form);
+		    	if(x.length > 0) {
+		    	    x[0].style.display='none';
+		    	    x=dojo.query('[name="message"]', x[0]);
+		    	    if(x.length > 0) x[0].innerHTML='';
+		    	}
+	    	}
+	    },
+
+	    message: function(data, type) {
+	        this.clearMessage();
+
+	        var x=dojo.query('[name="' + type + '_messages"]', this._form);
+	        if(x.length>0) {
+	            x[0].style.display='';
+	            x=dojo.query('[name="message"]', x[0]);
+	            if(x.length>0) {
+	                x[0].innerHTML=data;
+	                x[0].setAttribute('role', 'alert');
+	            }
+	        }
+    	},
+
+	    submit: function() {
+    		this._form.dangerousurlnonce.value=window.__security_nonce;
+    		this.message('Submitting...' + '<div class="lotusLoading lotusLeft"></div>', 'info');
+    		var _this = this;
+    		dojo.xhrPost({
+	        	url: this._form.action,
+	        	form: this._form,
+	        	handleAs: 'json-comment-optional',
+	        	sync: true,
+	        	load: function (data, ioArgs) {
+					if(data.success) {
+						_this.success = true;
+						lconn.blogs.utils.showMessage('lotusContent', 'flagCommentSuccessMessage', 'The comment has been flagged and submitted for review.', 'Confirmation icon');
+					}
+	            	else {
+	                	if(data.error) {
+		                	if('session timeout' == data.error) {
+		                        window.__security_nonce = data.nonce;
+		                        _this.message('We were unable to process your request due to a session timeout.  Please try again.', 'error');
+		                    } else {
+	            				_this.message(data.error, 'error');
+	            			}
+	            		}
+	            		else {
+	            			_this.message('This function is only available to authenticated users. Please log in first.', 'error');
+	            		}
+	            	}
+	        	},
+	        	error: function (error, ioArgs) {
+	            	_this.message('Fail to submit the request. Server error.', 'error');
+	        	}
+	    	});
+    	},
+
+	    reset: function(){
+	    	this._form.reset();
+	    	this.clearMessage();
+	    }
+
+	};
+
+</script>
+</div>
+<div id="lotusMain" class="lotusMain">
+	<div id="lotusColLeft" class="lotusColLeft">
+	    <!-- Community link -->
+	    
+		<!-- Tags -->
+    	<div id="lconnTagCloudFilter" class="lotusSection" role="complementary" aria-label="Tags" aria-labelledby="section_tag_label">
+			<h2>
+				<a id="tags" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" role="button" aria-label="Click to collapse section" title="Click to collapse section" onclick="lconn.blogs.utils.toggleSection(this, 'Click to collapse section', 'Click to expand section');return false;">
+					<span class="lotusAltText">&#x25bc;</span>
+				</a>
+				<span id="section_tag_label" class="lotusLeft">Tags</span>
+				<a href="javascript:;" id="tagsHelpLink"></a>
+				<script>
+					lconn.core.HelpLauncher.createHelpLink(dojo.byId("tagsHelpLink"), 'Tags', 'A tag is a keyword you assign to make a blog or blog content easier to find. Click a tag to find content that has been assigned that keyword. Click another tag to refine the search further. Click Find a tag to search for a tag that is not displayed in the collection.', {HELP:'Tags Help',CLOSE:'Close Tags Help'});
+				</script>
+			</h2>
+		 	<div id="lconnTagCloudContent" name="section_tags" class="lotusSectionBody">
+				<div id="lconnTagWidget"></div>
+				
+				
+				
+				<script language="javascript">
+dojo.addOnLoad(function(){
+		var selectedTags = "";
+		
+		var urlParameters = {};
+					urlParameters['website'] = '6e326c25-df5f-4c2f-b2ee-d066d4251095';
+				
+		var redirectUrlParameters = {};
+							
+		var blogsTagsArgs = {
+			contextPath: "/developerworks/community/blogs",
+			selectedTags: selectedTags,
+
+			tagUrl: '/developerworks/community/blogs/roller-services/json/tagcloud',
+			urlParameters:urlParameters,
+
+						typeAheadFeedUrl: '/developerworks/community/blogs/roller-services/json/typeahead?requestType=entry&limit=10&handle=dougielawson',
+			
+    					
+							isAllBlogs: false,
+				redirectUrl: "/developerworks/community/blogs/dougielawson",
+						redirectUrlParameters:redirectUrlParameters,
+
+			multiSelected:true,
+			typeAheadTemplate:'tag',
+			tagTemplate:'tags',
+
+			disableRelated:false,
+			handleAs:'json',
+			redirectWhenClickTag:true,
+			tagDialogEnabled: false
+		};
+
+		new lconn.blogs.CommonTags.BlogsTagWidget(blogsTagsArgs, dojo.byId('lconnTagWidget'));
+	}
+);
+</script>
+			</div>
+		</div><!--end section-->
+	</div><!--end colLeft-->
+
+	<!-- colRight -->
+	<!-- colRight would go below content when using overall table layout -->
+	<div id="lotusColRight" class="lotusColRight">
+				
+					
+								
+		
+	   					    			<div class="lotusSection  lotusFirst " role="complementary" aria-label="Archive" aria-labelledby="section_archive_label">
+		    	<h2 style="cursor:default">
+				<a id="archive" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" onclick="lconn.blogs.utils.toggleSection(this, 'Click to collapse section', 'Click to expand section');" title="Click to collapse section" role="button" aria-label="Click to collapse section"><span class="lotusAltText">&#x25bc;</span></a>
+				<span id="section_archive_label" class="lotusLeft">Archive</span>
+		    	</h2>
+		    	<div id="section_archive" class="lotusSectionBody">
+		    		<div>
+			    	
+<ul class='lotusList'><li><a href='/developerworks/community/blogs/dougielawson/date/201311'>November 2013</a></li><li><a href='/developerworks/community/blogs/dougielawson/date/201307'>July 2013</a></li></ul>
+
+			    	</div>
+			    </div>
+		    </div>
+		    		    
+		    		
+		<div class="lotusSection " role="complementary" aria-label="Blog Authors" aria-labelledby="section_authors_label">
+			<h2 style="cursor:default">
+				<a id="authors" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" onclick="lconn.blogs.utils.toggleSection(this, 'Click to collapse section', 'Click to expand section');" title="Click to collapse section" role="button" aria-label="Click to collapse section"><span class="lotusAltText">&#x25bc;</span></a>
+				<span id="section_authors_label" class="lotusLeft">Blog Authors<div id="authors_loading"></div></span>
+			</h2>
+			<div id="section_authors" class="lotusSectionBody">
+
+			<div id="blogAuthors" style="overflow:hidden">
+           </div>
+
+           <script language="javascript">
+				var blogAuthors = dojo.byId('blogAuthors');
+				var authorPageSize = 3;
+				blogAuthors.getUserPhotoURL = function(relative) {
+                                             return 'https://www.ibm.com/developerworks/community/profiles' + relative;
+                          };
+				blogAuthors.render = function(data, reload) {
+               var i = 0, s = '';
+
+				var prevlink = undefined, nextlink = undefined, baselink = '/developerworks/community/blogs/roller-services/json/authors?weblog=6e326c25-df5f-4c2f-b2ee-d066d4251095&ps='+authorPageSize+'&offset={0}&lang=en';
+				if(data.offset > 1)
+					prevlink = "javascript:dojo.byId('blogAuthors').load('" + baselink.replace("{0}", (data.offset - authorPageSize))  + "')";
+				if(data.end < data.total)
+					nextlink = "javascript:dojo.byId('blogAuthors').load('" + baselink.replace("{0}", (data.offset + authorPageSize)) + "')";
+				
+				if(data.offset > 1)
+					s+= '<table width="100%" role="presentation"><tr><td style="text-align: center;"><a  role="button" aria-label="Previous" title="Previous" onclick="'+(prevlink ?prevlink : '')+ '" href="javascript:void(0);"><img class="lotusSprite lotusArrow lotusScrollUp" style="display: inline;" alt="Previous" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906"/><span class="lotusAltText">Previous</span></a></td></tr></table>';
+
+               for(; i < data.authors.length; i++) {
+                   var o = data.authors[i];
+                   var divTemp = dojo.create("div",{});
+				   var a;
+				   if(lconn.core.config.services.profiles)
+                      a = com.ibm.lconn.layout.people.createLink({userid:o.extid, name:o.fullName});
+				   else{
+				      a = dojo.create("a",{"class":"fn lotusPerson", "href":"/developerworks/community/blogs/roller-ui/allblogs?userid="+encodeURIComponent(o.extid)+"&lang=en", "title":o.fullName, "innerHTML":o.fullName});
+				   }
+                   divTemp.appendChild(a);
+                      if (o.state=='0') {
+						s += ['<table width="100%" style="border-style: solid; border-color: rgb(204, 203, 203); border-width: 1px 0px 0px;" role="presentation">',
+								'<tr><td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 45px;">',
+								'<img alt="" role="presentation" class="otherPeople48 otherPeople48-NoPhotoPerson48" src="', this.getUserPhotoURL(o.photo), '"></td>',
+								'<td class="lotusAlignLeft" style="vertical-align: middle; height: 50px;"><span class="vcard">',
+                           divTemp.innerHTML,
+                           '<span class="x-lconn-userid" style="display:none">', o.extid, '</span>',
+                           o.emailAddress? ('<span class="email" style="display:none">' + o.emailAddress + '</span>') : '',
+								'</span></td></tr></tbody></table>'
+                        ].join('');
+                      }
+                      else {
+                      	dojo.addClass(a, "lotusPersonInactive");
+                      	a.innerHTML = o.fullName + '(' + 'inactive' + ')';
+						if(!lconn.core.config.services.profiles)
+							dojo.attr(a, {"title": o.fullName + '(' + 'inactive' + ')'});
+						s += ['<table width="100%" style="border-style: solid; border-color: rgb(204, 203, 203); border-width: 1px 0px 0px;" role="presentation">',
+								'<tr><td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 45px;">',
+								'<img alt="" role="presentation" class="otherPeople48 otherPeople48-NoPhotoPerson48" src="', this.getUserPhotoURL(o.photo), '"></td>',
+								'<td class="lotusAlignLeft" style="vertical-align: middle; height: 50px;"><span class="vcard">',
+                           divTemp.innerHTML,
+                           '<span class="x-lconn-userid" style="display:none">', o.extid, '</span>',
+                           o.emailAddress? ('<span class="email" style="display:none">' + o.emailAddress + '</span>') : '',
+								'</span></td></tr></tbody></table>'
+                        ].join('');
+                      }
+               }
+
+				if(data.end < data.total)
+					s+= '<table width="100%" role="presentation"><tr><td style="text-align: center;"><a role="button" aria-label="Next" title="Next" onclick="'+(nextlink ?nextlink : '')+ '" href="javascript:void(0);"><img class="lotusSprite lotusArrow lotusScrollDown" style="display: inline;" alt="Next" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906"/><span class="lotusAltText">Next</span></a></td></tr></table>';
+
+				s += ['<table width="100%" role="presentation"><tr>',
+						'<td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 50%;"><span>', dojo.string.substitute(	'${0} - ${1} of ${2} authors', [data.offset, data.end, data.total]), '</span></td>',
+						'</tr></tbody></table>'
+                        ].join('');
+
+				dojo.byId('blogAuthors').innerHTML = s;
+
+               dojo.removeClass(dojo.byId("authors_loading"), "lotusLoading");
+
+               if(typeof(SemTagSvc) != "undefined" && reload) {
+					SemTagSvc.parseDom(null, dojo.byId('blogAuthors'));
+               }
+           };
+				blogAuthors.load = function(url) {
+               dojo.addClass(dojo.byId("authors_loading"), "lotusLoading");
+					dojo.xhrGet({url: url, handleAs: 'json', load: function(data){dojo.byId('blogAuthors').render(data, true);}, error: function(err){dojo.removeClass(dojo.byId("authors_loading"), "lotusLoading");}});
+           };
+
+				           					blogAuthors.render({offset: 1, end: 1, total: 1, authors: [{id:'8b119479-7d23-4ba2-b7a0-fd88003180a5',extid:'120000H0SQ',name:'DougieLawson',fullName:'DougieLawson',state:'0',userState:'active',userIDForDisplay:'120000H0SQ',photo:'/photo.do?userid=120000H0SQ'}]});
+                      </script>
+				</div>
+			</div>
+	   </div> <!-- end colRight -->
+
+		<!-- content -->
+		<!-- <td valign="top"> -->
+         <div id="lotusContent" class="lotusContent" role="main">
+         <a id="mainContent" name="mainContent"></a>
+           											    
+           <div class="lotusLayout lotusHeader blogsWrapText">
+              <h1>
+              	              	<a href="https://www.ibm.com/developerworks/community/blogs/dougielawson?lang=en">The Darkside of the IMS Systems Progammer</a>
+                              </h1>
+           </div>
+
+                      
+           
+		    
+ 		    <div id="entries">
+
+		        
+		        
+				<!-- Dont show paging when there are no entries -->
+									            
+
+
+				<!-- Dont show sort control when there are no entries -->
+				 		        			   
+		       
+    
+        <table class="lotusTable blogsFixedTable" border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+	<tbody>
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+    <tr  class="lotusFirst" >
+	    <!-- Entry title and info -->
+		<td  class="entryContentContainerTD blogsWrapText" ><a name="raspberry_pi_python_nginx_and_gpio" id="raspberry_pi_python_nginx_and_gpio"></a>
+							<h4>
+					Raspberry Pi. Python, NGINX and GPIO
+				</h4>
+						<!-- User name, date, meta info -->
+			<div class="lotusMeta lotusLeft" role="list">
+				<span class="vcard" role="listitem">
+					<a class="lotusPerson fn" aria-describedby="semtagmenu" href="https://www.ibm.com/developerworks/community/profiles/html/profileView.do?userid=120000H0SQ" title="DougieLawson">DougieLawson</a>
+				    <span class="x-lconn-userid" style="display: none;">120000H0SQ</span>
+				    				</span>
+								<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+				<span role="listitem">
+				<script type='text/javascript'> document.write(blogsDate.date.localize (1384715732000));</script>
+				</span>
+		        													                	<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+                	<span role="listitem">
+                	                	5,455 Visits
+                	                	</span>
+                	        </div>
+			<!-- Rating -->
+			        	<span class="lotusRight">
+<span class="rating lotusRating" id="entry_rating_d0fa56a0-0a44-4689-929a-8bca36a001f2" >
+<div id="entry_rating_d0fa56a0-0a44-4689-929a-8bca36a001f2_widget"></div>
+<script language="javascript">
+	dojo.addOnLoad(function(){
+	var store_data = {
+	id: currentLogin.extid,
+	identifier: "userId",
+	items: [
+			]
+	};
+	var store = new lconn.blogs.recommend.RecommendDataStore({data:store_data, type:'entry', itemId:'d0fa56a0-0a44-4689-929a-8bca36a001f2', urlRecommendation:'/developerworks/community/blogs/roller-services/json/rating?entryid=d0fa56a0-0a44-4689-929a-8bca36a001f2&lang=en'});
+	objRecommend = new lconn.blogs.recommend.Inline(
+			{
+				debug: false,
+				editable: true,
+				loadIndividualStyles: false,
+									currentUserId: currentLogin.extid,
+								dataStore: store			
+			},
+			dojo.byId('entry_rating_d0fa56a0-0a44-4689-929a-8bca36a001f2_widget')
+	);
+	});
+</script>
+
+
+</span>
+</span>
+	        <!-- Entry content -->
+			<br/>
+	        <div class="entryContentContainer blogsWrapText" role="article">
+	        						<p dir="ltr">
+	There&#39;s a common theme on <a href="http://raspberrypi.org/phpBB3" target="_blank">Raspberry&nbsp;Pi&nbsp;Forum</a> where folks want to be able to control the General Purpose Input/Output (GPIO) pins from a web page.</p>
+<p dir="ltr">
+	That sounds simple and fundamentally it is simple. But unless you run everything with root privileges it&#39;s slightly less simple than it should be. So my design is a simple back-end server program that runs as root and gets a message sent to it from a web common gateway interface (CGI) program to control the pins. The CGI program runs with restricted privileges as user www-data. The message is passed from CGI to server by MQTT (using the freely available server Mosquitto).</p>
+<p dir="ltr">
+	In python there&#39;s a RPi.GPIO library that allows us to setup GPIO pins as input or output and for an output pin we can toggle the value between one (+3V3) and zero (+0V). Hang an LED from the pin (with a current limiting resistor) and setting the pin to on lights the LED, setting it to zero sets it off.</p>
+<p dir="ltr">
+	There&#39;s a three colour LED that&#39;s easy to find on eBay (or other online component shops) so the aim is to create a simple web page that allows for the eight settings of an RGB LED.</p>
+<ul dir="ltr">
+	<li>
+		OFF</li>
+	<li>
+		RED1</li>
+	<li>
+		BLUE</li>
+	<li>
+		GREEN</li>
+	<li>
+		RED+BLUE: MAGENTA</li>
+	<li>
+		RED+GREEN: YELLOW</li>
+	<li>
+		BLUE+GREEN: CYAN</li>
+	<li>
+		RED+BLUE+GREEN: WHITE</li>
+</ul>
+<p dir="ltr">
+	To run RPi.GPIO I have to be a root (UID(0)) user. For the sake of system security I don&#39;t want to run any process that is directly exposed to the Internet with root privileges.</p>
+<p dir="ltr">
+	So I started by installing the software packages needed to get a small web server running on my Raspberry Pi.</p>
+<blockquote dir="ltr">
+	<p>
+		sudo install nginx # Engine X web server</p>
+	<p>
+		sudo install mosquitto python3-mosquitto # Mosquitto MQTT and the python3 library</p>
+	<p>
+		sudo install fcgiwrap # FastCGI wrapper for NGINX</p>
+	<p>
+		sudo install python3-rpi-gpio # Python3 RPi.GPIO library</p>
+</blockquote>
+<p dir="ltr">
+	Configuring NGINX was a change from Apache2. To get a simple static website running was trivial, to get FastCGI running wasn&#39;t as simple as I was expecting.</p>
+<blockquote dir="ltr">
+	<p>
+		/etc/nginx/fastcgi_params:<br />
+		<span style="font-family:courier new,courier,monospace;">fastcgi_param&nbsp;&nbsp; QUERY_STRING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $query_string;<br />
+		fastcgi_param&nbsp;&nbsp; REQUEST_METHOD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $request_method;<br />
+		fastcgi_param&nbsp;&nbsp; CONTENT_TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $content_type;<br />
+		fastcgi_param&nbsp;&nbsp; CONTENT_LENGTH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $content_length;<br />
+		<br />
+		<span style="color: rgb(0, 0, 205);">#fastcgi_param&nbsp; SCRIPT_FILENAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $request_filename;<br />
+		fastcgi_param&nbsp;&nbsp; SCRIPT_FILENAME /srv/www/httpi/cgi-bin$fastcgi_script_name;</span><br />
+		fastcgi_param&nbsp;&nbsp; SCRIPT_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $fastcgi_script_name;<br />
+		fastcgi_param&nbsp;&nbsp; REQUEST_URI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $request_uri;<br />
+		fastcgi_param&nbsp;&nbsp; DOCUMENT_URI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $document_uri;<br />
+		fastcgi_param&nbsp;&nbsp; DOCUMENT_ROOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $document_root;<br />
+		fastcgi_param&nbsp;&nbsp; SERVER_PROTOCOL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $server_protocol;<br />
+		<br />
+		fastcgi_param&nbsp;&nbsp; GATEWAY_INTERFACE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CGI/1.1;<br />
+		fastcgi_param&nbsp;&nbsp; SERVER_SOFTWARE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nginx/$nginx_version;<br />
+		<br />
+		fastcgi_param&nbsp;&nbsp; REMOTE_ADDR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $remote_addr;<br />
+		fastcgi_param&nbsp;&nbsp; REMOTE_PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $remote_port;<br />
+		fastcgi_param&nbsp;&nbsp; SERVER_ADDR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $server_addr;<br />
+		fastcgi_param&nbsp;&nbsp; SERVER_PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $server_port;<br />
+		#fastcgi_param&nbsp; #SERVER_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #$server_name;<br />
+		fastcgi_param&nbsp;&nbsp; SERVER_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arthur_dent;<br />
+		<br />
+		fastcgi_param&nbsp;&nbsp; HTTPS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $https;<br />
+		<br />
+		# PHP only, required if PHP was built with --enable-force-cgi-redirect<br />
+		fastcgi_param&nbsp;&nbsp; REDIRECT_STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200;</span></p>
+</blockquote>
+<blockquote dir="ltr">
+	<p>
+		/etc/nginx/sites-available/default:<br />
+		<span style="font-family:courier new,courier,monospace;">server {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; listen&nbsp;&nbsp; 80; ## listen for ipv4; this line is default and implied<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; listen&nbsp;&nbsp; [::]:80; # default_server ipv6only=on; ## listen for ipv6<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root /srv/www/httpi;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_name localhost;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location / {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; index index.html index.htm;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location /doc/ {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias /usr/share/doc/;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; autoindex on;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allow 127.0.0.1;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; deny all;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location /cgi-bin/ {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias /srv/www/httpi;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gzip off;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_pass unix:/var/run/fcgiwrap.socket;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; include fastcgi_params;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location ~ \.cgi$ {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gzip off;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_pass unix:/var/run/fcgiwrap.socket;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_index index.cgi;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; include fastcgi_params;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location ~ \.pl$ {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gzip off;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_pass unix:/var/run/fcgiwrap.socket;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_index index.pl;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; include fastcgi_params;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		}</span><br />
+		&nbsp;</p>
+</blockquote>
+<p dir="ltr">
+	After doing that I could run CGI programs by pointing my web browser at: <a href="http://raspi.local/cgi-bin/test.cgi">http://raspi.local/cgi-bin/test.cgi</a></p>
+<p dir="ltr">
+	Testing involved finding a simple python program that generated some simply HTML:</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">#!/usr/bin/python3<br />
+		<br />
+		import cgi, cgitb<br />
+		import os<br />
+		import time<br />
+		<br />
+		# Get data from fields<br />
+		cgi_colour = form.getvalue(&#39;colour&#39;)<br />
+		<br />
+		print (&quot;Content-type:text/html\r\n\r\n&quot;)<br />
+		print (&quot;&lt;html&gt;&quot;)<br />
+		print (&quot;&lt;head&gt;&quot;)<br />
+		print (&quot;&lt;title&gt;Python3 CGI Program&lt;/title&gt;&quot;)<br />
+		print (&quot;&lt;/head&gt;&quot;)<br />
+		print (&quot;&lt;body&gt;&quot;)<br />
+		print (&quot;&lt;h2&gt;Message sent to %s&lt;/h2&gt;&quot;,cgi_colour)<br />
+		print (&quot;&lt;/body&gt;&quot;)<br />
+		print (&quot;&lt;/html&gt;&quot;)</span></p>
+</blockquote>
+<p dir="ltr">
+	It&#39;s ready to take a POST from a HTML page.</p>
+<p dir="ltr">
+	So the next step it build that HTML:</p>
+<blockquote dir="ltr">
+	<p>
+		<br />
+		<span style="font-family:courier new,courier,monospace;">&lt;FORM action=&quot;cgi-bin/test.cgi&quot; method=&quot;post&quot;&gt;&lt;P&gt;<br />
+		&lt;table&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Blue:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;BLUE&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Cyan:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;CYAN&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Yellow:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;YELLOW&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Green:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;GREEN&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Red:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;RED&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;Magenta:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;MAGENTA&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;White:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;WHITE&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td&gt;OFF:&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;colour&quot; value=&quot;OFF&quot; /&gt;&lt;/tr&gt;<br />
+		&lt;tr&gt;&lt;td colspan=2&gt;<br />
+		&lt;INPUT type=&quot;submit&quot; value=&quot;Press ENTER&quot;&gt;&lt;/td&gt;&lt;/tr&gt;<br />
+		&lt;/FORM&gt;</span></p>
+</blockquote>
+<p dir="ltr">
+	<span style="font-family:courier new,courier,monospace;"><span style="font-family:arial,helvetica,sans-serif;">And we now have a page with a series of radio buttons that feeds the value &quot;colour&quot; to the CGI program.</span></span></p>
+<p dir="ltr">
+	Once I had that working the next step was to write a python3 / mosquitto / RPi.GPIO program to read from a MQTT topic and set the tri-colour LED to the correct state</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">#!/usr/bin/python3<br />
+		<br />
+		import RPi.GPIO as GPIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # import RPi.GPIO module<br />
+		from time import sleep&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # lets us have a delay<br />
+		import mosquitto<br />
+		import os<br />
+		import time<br />
+		import sys<br />
+		<br />
+		bpin = 18<br />
+		rpin = 27<br />
+		gpin = 22<br />
+		<br />
+		GPIO.setmode(GPIO.BCM)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # choose BCM or BOARD<br />
+		GPIO.setup(bpin, GPIO.OUT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set GPIO18 as an output<br />
+		GPIO.setup(rpin, GPIO.OUT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set GPIO18 as an output<br />
+		GPIO.setup(gpin, GPIO.OUT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set GPIO18 as an output<br />
+		<br />
+		def on_message(mqtts, userd, msg):<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (str(msg.payload) == &quot;b&#39;BLUE&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;CYAN&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;MAGENTA&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;WHITE&#39;&quot;):<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(bpin, 1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set blue pin to 1/GPIO.HIGH/True<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(bpin, 0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set blue pin to 0/GPIO.LOW/False<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (str(msg.payload) == &quot;b&#39;RED&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;YELLOW&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;MAGENTA&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;WHITE&#39;&quot;):<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(rpin, 1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set red pin to 1/GPIO.HIGH/True<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(rpin, 0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set red pin to 0/GPIO.LOW/False<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (str(msg.payload) == &quot;b&#39;GREEN&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;YELLOW&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;CYAN&#39;&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or str(msg.payload) == &quot;b&#39;WHITE&#39;&quot;):<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(gpin, 1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set GPIO18 to 1/GPIO.HIGH/True<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.output(gpin, 0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set GPIO18 to 0/GPIO.LOW/False<br />
+		<br />
+		#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print (&quot;Message received on topic: &quot;+msg.topic+<br />
+		#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;... with QoS: &quot;+str(msg.qos)+<br />
+		#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;... and payload: &quot;+str(msg.payload))<br />
+		<br />
+		def main():<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; broker = &quot;127.0.0.1&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; port = 1883<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mypid = os.getpid()<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sub_uniq = &quot;subclient_&quot;+str(mypid)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mqtts = mosquitto.Mosquitto(sub_uniq)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mqtts.on_message = on_message<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mqtts.connect(broker, port, 60)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mqtts.subscribe(&quot;test/pi/colour&quot;, 0)<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rc = 0<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while rc == 0:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rc = mqtts.loop()<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.cleanup()<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0<br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; except KeyboardInterrupt:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # trap a CTRL+C keyboard interrupt<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPIO.cleanup()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # resets all GPIO ports used by this program<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 4<br />
+		<br />
+		if __name__ == &quot;__main__&quot;:<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sys.exit(main())</span></p>
+</blockquote>
+<p dir="ltr">
+	I set that process running with:</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">nohup ./subLED.py &amp;</span></p>
+</blockquote>
+<p dir="ltr">
+	It will stay running even if I log off. It only terminates with an explicit kill or by shutting down the Raspberry Pi. So now if we publish a message on test/pi/colour we can set the tri-colour LED to any one of the seven colour or set it OFF. We can test that with</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">mosquitto_pub -h localhost -t test/pi/colour -m WHITE</span></p>
+</blockquote>
+<p dir="ltr">
+	and off again with</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">mosquitto_pub -h raspi.local -t test/pi/colour -m OFF</span></p>
+</blockquote>
+<p dir="ltr">
+	<span style="font-family:arial,helvetica,sans-serif;">We can go through all the colours. <span style="font-family:courier new,courier,monospace;">mosquitto_pub</span> is a built in sample program as part of mosquitto. </span>There&#39;s an equivalent <span style="font-family:courier new,courier,monospace;">mosquitto_sub</span> that allows us to see the messages on our topic.</p>
+<p dir="ltr">
+	So the next step is to update the HTML to run a new CGI program (on the &lt;FORM&gt; tag) and create a CGI program that publishes the selected value on the mosquitto topic that we&#39;re listening on.</p>
+<blockquote dir="ltr">
+	<p>
+		<span style="font-family:courier new,courier,monospace;">#!/usr/bin/python3<br />
+		<br />
+		# Import modules for CGI handling<br />
+		import cgi, cgitb<br />
+		import mosquitto<br />
+		import os<br />
+		import time<br />
+		<br />
+		broker = &quot;127.0.0.1&quot;<br />
+		port = 1883<br />
+		<br />
+		mypid = os.getpid()<br />
+		client_uniq = &quot;pubclient_&quot;+str(mypid)<br />
+		mqttc = mosquitto.Mosquitto(client_uniq)<br />
+		<br />
+		#connect to broker<br />
+		mqttc.connect(broker, port, 60, True)<br />
+		<br />
+		# Create instance of FieldStorage<br />
+		form = cgi.FieldStorage()<br />
+		<br />
+		# Get data from fields<br />
+		cgi_colour = form.getvalue(&#39;colour&#39;)<br />
+		<br />
+		print (&quot;Content-type:text/html\r\n\r\n&quot;)<br />
+		print (&quot;&lt;html&gt;&quot;)<br />
+		print (&quot;&lt;head&gt;&quot;)<br />
+		print (&quot;&lt;title&gt;Python3 CGI Program&lt;/title&gt;&quot;)<br />
+		print (&quot;&lt;/head&gt;&quot;)<br />
+		print (&quot;&lt;body&gt;&quot;)<br />
+		print (&quot;&lt;h2&gt;Message sent to MQTT&lt;/h2&gt;&quot;)<br />
+		<br />
+		mqttc.publish(&quot;test/pi/colour&quot;, cgi_colour)</span></p>
+	<p>
+		<span style="font-family:courier new,courier,monospace;">print (&quot;&lt;p&gt;Message published: &quot;+cgi_colour)<br />
+		<br />
+		print (&quot;&lt;/body&gt;&quot;)<br />
+		print (&quot;&lt;/html&gt;&quot;)</span></p>
+</blockquote>
+<p dir="ltr">
+	<span style="font-family:arial,helvetica,sans-serif;">and there we have it. A web page that drives a CGI program, a CGI program that sends a message to MQTT and a server program that gets the MQTT message and uses it to set the status of a tri-colour LED using three of the GPIO pins on the Raspberry Pi.</span></p>
+<p dir="ltr">
+	&nbsp;</p>
+<p dir="ltr">
+	The code is available on <a href="https://github.com/DougieLawson/CGI_Mosquitto_RPi">https://github.com/DougieLawson/CGI_Mosquitto_RPi</a></p>
+<div dir="ltr" id="cke_pastebin" style="position: absolute; top: 2129px; width: 1px; height: 1px; overflow: hidden; left: -1000px;">
+	&nbsp;</div>
+
+	            	        </div>
+		    			<span class="blogsUpdatedTimeInfo">
+							    			    Modified <script type='text/javascript'> document.write(blogsDate.date.localize (1384715934000));</script> by <span class='vcard' role='listitem'><a class="lotusPerson fn" aria-describedby="semtagmenu" href="https://www.ibm.com/developerworks/community/profiles/html/profileView.do?userid=120000H0SQ" title="DougieLawson">DougieLawson</a> <span class='x-lconn-userid' style='display:none;'>120000H0SQ</span> </span>
+			    		    </span>
+					</td>
+    </tr>
+
+
+
+    </tbody>
+
+    </table>
+
+
+			  <script language="javascript">
+				function flagInappropriateComment(commentId) {
+					if(currentLogin.auth){
+						flagInappropriateCommentForm.init(commentId);
+						lconn.blogs.utils.showPopupForm("Flag as inappropriate",flagInappropriateCommentForm.getForm(), dojo.hitch(flagInappropriateCommentForm, "submit"), dojo.hitch(flagInappropriateCommentForm, "isSuccess"), "flagCommentLink_"+commentId);
+					}else{
+						window.location.replace('https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2Fdougielawson%2Fentry%2Fraspberry_pi_python_nginx_and_gpio%3Flang%3Den%23action%3DflagComment%26id%3D'+commentId);
+					}
+				}
+			   </script>
+
+		       		        <script language="javascript">if(currentLogin.auth) document.write('<div style="display:none">');</script>
+		        <span id="a11y_loginHint" style="display:none">Login to access this feature</span>
+		        <ul class="lotusInlinelist">
+			        <li class="lotusFirst">
+			        	<nobr><a class="lotusAction" role="button" aria-describedby="a11y_loginHint" title="Login to access this feature" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2Fdougielawson%2Fentry%2Fraspberry_pi_python_nginx_and_gpio%3Flang%3Den%23action%3Daddcomment">Add a Comment</a></nobr>
+			        </li>
+			        <li><nobr><a class="lotusAction" role="button" aria-describedby="a11y_loginHint" aria-haspopup="true" title="Login to access this feature" href="#" onclick="if(!event){event=window.event;}menuUtility.openMenu(event, 'actionmenu_moreactions_anonymous', this);return false;">More Actions
+								<img alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lconnSprite lconnSprite-iconDropDown5x3" role="presentation">
+								<span class="lotusAltText">v</span>
+					</a></nobr></li>
+		        </ul>
+		        <div id="actionmenu_moreactions_container_anonymous">
+			        <div dojoType="dijit.Menu" id="actionmenu_moreactions_anonymous" style="display: none;">
+					    <div dojoType="dijit.MenuItem" onClick="window.location.replace('https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2Fdougielawson%2Fentry%2Fraspberry_pi_python_nginx_and_gpio%3Flang%3Den%23action%3Dsend_notification'); return false;">Notify Other People</div>
+					    					</div>
+				</div>
+		        <script language="javascript">if(currentLogin.auth) document.write('</div>'); else document.write('<div style="display:none">');</script>
+		        <ul class="lotusInlinelist">
+			        <li class="lotusFirst">
+			        <nobr>
+				        				        <a class="disabledLink" title="Comment is disallowed for this entry">Add a Comment</a>
+				        				    </nobr>
+			        </li>
+
+		        	<script language="javascript">if(!currentLogin.edit) document.write('<li style="display:none">'); else document.write('<li>');</script>
+		        	<nobr>
+		        		<a class="lotusAction" href="/developerworks/community/blogs/roller-ui/authoring/weblog.do?method=edit&amp;weblog=dougielawson&amp;entry=raspberry_pi_python_nginx_and_gpio&lang=en">Edit</a>
+		        	</nobr>
+		        	</li>
+		        	<li>
+		        	<nobr>
+			        	<a id="focusMoreActionsLink" class="lotusAction" role="button" aria-haspopup="true" href="#" title="" onclick="if(!event){event=window.event;}menuUtility.openMenu(event, 'actionmenu_moreactions', this);return false;">More Actions 
+							<img alt="" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" class="lconnSprite lconnSprite-iconDropDown5x3" role="presentation">
+							<span class="lotusAltText">v</span>
+						</a>
+		        	</nobr>
+		        	</li>
+		        	<script language="javascript">if(!currentLogin.postModerationReviewer) document.write('<li style="display:none">'); else document.write('<li>');</script>
+		        	<nobr>
+		        		<a id="quarantineThisEntryLink" role="button" href="#" onclick="WeblogEntryActionForms.toggle('quarantineForm', 'comment');return false;" class="lotusAction" style="color: #f00;">Quarantine this Entry</a>
+		        	</nobr>
+		        	</li>
+		        </ul>
+			   <script language="javascript">
+                   function submitDeleteForm() {
+				   		lconn.blogs.utils.confirm("Are you sure you want to delete this entry?", function(){
+							postDelete();
+						}, {title:'Delete Entry'}, "deleteEntryLink");
+				   }
+               </script>
+		        <div id="actionmenu_moreactions_container">
+			        <div dojoType="dijit.Menu" id="actionmenu_moreactions" style="display: none;">
+					    <div dojoType="dijit.MenuItem" id="focusAddNotificationLink" onClick="WeblogEntryActionForms.toggle('notificationForm', 'notificationForm_typeahead,Type_in_a_Name_LINK,Pick_from_Community_LINK');return false;">Notify Other People</div>
+					    					</div>
+				</div>
+		        <script language="javascript">if(!currentLogin.auth) document.write('</div>');</script>
+				<script language="javascript">
+				dojo.addOnLoad(function() {
+				if(currentLogin.edit){
+					var more_menu = dijit.byId("actionmenu_moreactions");
+					var delete_item = new dijit.MenuItem({"id":"deleteEntryLink","label":'Delete Entry', "onClick":function(){submitDeleteForm();return false;}});
+					more_menu.addChild(delete_item);
+				}
+				});
+				</script>
+				
+				<div style="margin-top:10px"><form name="commentForm" style="display:none" action=" https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio?maxresults=15&lang=en" method="post" class="lotusForm" role="application">
+<span name="_type" style="display:none">comment</span>
+<div name="error_messages" class="lotusMessage" style="display:none" role="alert">
+	<img class="lconnSprite lconnSprite-iconError16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Error icon" /><span class="lotusAltText">Error icon</span><span name="message"></span>
+</div>
+<div name="warning_messages" class="lotusMessage lotusWarning" style="display:none" role="alert">
+	<img class="lconnSprite lconnSprite-iconWarning16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Warning icon" /><span class="lotusAltText">Warning icon</span><span name="message"></span>
+</div>
+<div name="info_messages" class="lotusMessage lotusInfo" style="display:none" role="alert">
+	<img class="lconnSprite lconnSprite-iconAttention16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Information icon" /><span class="lotusAltText">Information icon</span><span name="message"></span>
+</div>
+<input type="hidden" name="method" value="post" />
+<input type="hidden" name="dangerousurlnonce" value="" />
+<input type="hidden" name="lang" value="en" />
+<input type="hidden" name="version" value="250" />
+<input type="hidden" name="currententryurl" value="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio?maxresults=15&lang=en" />
+<table width="100%" class="lotusFormTable" role="presentation"><tbody>
+	<tr><td colspan="2" class="lotusFormTitle"><h2><strong>Comment</strong> on this Entry</h2></td></tr>
+	<tr class="lotusFormFieldRow">
+		<td width="5%"> </td>
+		<td><textarea id="comment_content" name="content" title='Content' rows="10" style="width:80%"></textarea></td>
+	</tr>
+	<tr class="lotusFormFieldRow"><td> </td>
+		<td name="select_blogs"> </td>
+	</tr>
+	<tr><td colspan="2" class="lotusFormFooter"><div class="submitArea">
+	    <input class="lotusFormButton blogsPaddingRight" name="submitBtn" onclick="this.form.method.value='post';return true;" type="submit" value='Submit'/>
+	<input class="lotusFormButton blogsPaddingRight" name="previewBtn" onclick="this.form.method.value='preview';return true;" type="submit" value='Preview' />
+      <input class="lotusFormButton blogsPaddingRight" name="cancelBtn" onclick="return WeblogEntryActionForms.cancel('commentForm', 'AddWeblogEntryCommentLink');" type="button" value='Cancel' />
+	</div></td></tr>
+</tbody></table>
+</form>
+<form id="NotificationForm" name="notificationForm" style="display:none" action="/developerworks/community/blogs/roller-services/json/notify" class="lotusForm" dojoInit="false" role="application">
+	<span name="_type" style="display:none">notification</span>
+	<div name="error_messages" class="lotusMessage" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconError16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Error icon" /><span class="lotusAltText">Error icon</span><span name="message"></span>
+	</div>
+	<div name="warning_messages" class="lotusMessage lotusWarning" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconWarning16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Warning icon" /><span class="lotusAltText">Warning icon</span><span name="message"></span>
+	</div>
+	<div name="info_messages" class="lotusMessage lotusInfo" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconAttention16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Information icon" /><span class="lotusAltText">Information icon</span><span name="message"></span>
+	</div>
+	<input type="hidden" name="entry" value="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio"/>
+	<input type="hidden" name="dangerousurlnonce" value=""/>
+	<input type="hidden" name="lang" value="en" />
+	<input type="hidden" name="version" value="250" />
+	<table width="100%" class="lotusFormTable" role="presentation">
+	<tbody>
+		<tr><td class="lotusFormTitle"><h2>Send Email Notification</h2></td></tr>
+		<tr class="lotusFormFieldRow">
+			<td class="lotusFormField" style="padding-bottom:0px;">
+				<label for="notificationForm_typeahead">Type in a Name:</label>
+			</td>
+		</tr>
+		<tr class="lotusFormFieldRow">
+			<td class="lotusFormField">
+				<span dojoType="lconn.core.PeopleDataStore" queryParam="name" url="/developerworks/community/blogs/roller-services/json/typeaheadpeople?website=6e326c25-df5f-4c2f-b2ee-d066d4251095" jsId="peopleStore"></span>
+				<div dojoType="lconn.core.PeopleTypeAhead" class="typeAheadPeople" title="Type in a Name:" id="notificationForm_typeahead" style="width:78%" minChars="2" searchDelay="400" multipleValues="false" token="," store="peopleStore" ></div>
+				<button name="addMemberBtn" onclick="return false;" class="fieldAdd" style="vertical-align: top;" title="Add" ></button>
+				<a name="addMemberBtn" role="button" aria-label="Add" onclick="return false;" href="#" class="lotusAltText" title="Add">+</a>
+			</td>
+		</tr>
+		<tr class="lotusFormFieldRow" name="notifyLabelTR" style="display:none">
+    		<td nowrap style="padding-bottom:0px;"><div><label class="" for="notify">Notify:</label></div></td>
+    	</tr>
+    	<tr class="lotusFormFieldRow" name="notifyFieldTR" style="display:none">
+    		<td class="lotusFormField">
+    		 	<div dojoType="lconn.blogs.notification.receivers">
+    		 		 <script type='dojo/method' event='onChange' args="person,op">
+    		 		  if(this.receivers.length == 0){
+    		 		 		this.form().sendBtn.disabled = true;
+    		 		 		this.form().sendBtn.className = "lotusFormButton lotusBtnDisabled";
+
+    		 		 		dojo.query('[name="notifyLabelTR"]', this.form())[0].style.display = "none";
+    		 		 		dojo.query('[name="notifyFieldTR"]', this.form())[0].style.display = "none";
+    		 		  }else{
+    		 		 		this.form().sendBtn.disabled = false;
+    		 		 		this.form().sendBtn.className = "lotusFormButton lotusBtnSpecial";
+
+							dojo.query('[name="notifyLabelTR"]', this.form())[0].style.display = "";
+							dojo.query('[name="notifyFieldTR"]', this.form())[0].style.display = "";
+    		 		  }
+    		 		 </script>
+    		 		 <script type='dojo/connect' event='startup'>
+    		 		 	dojo.connect(dijit.byId(this.form().name+'_typeahead'),
+    		 		 		'onSelect',
+    		 		 		this,
+    		 		 		function(){
+    		 		 		    var x = dijit.byId(this.form().name+'_typeahead');
+    		 		 			var obj = x.getItem();
+    		 		 			if(obj) {
+    		 		 				if(obj.type != "-1"){
+	    		 		 				this.add(obj.name, obj.userid);
+	    		 		 				x.reset();
+    		 		 				}
+    		 		 			}
+    		 		 		}
+    		 		 	);
+    		 		 	var _This = this;
+    		 		 	dojo.forEach(dojo.query('[name="addMemberBtn"]', this.form()), function(o){
+    		 		 	    dojo.connect(o, 'onclick', _This, function() {
+    		 		 	        var x = dijit.byId(this.form().name+'_typeahead');
+    		 		 	        var s = lconn.blogs.utils.purifyEmail(x.getTextBoxValue());
+    		 		 	        if(lconn.blogs.utils.isEmail(s)) {
+    		 		 	            this.add(s, undefined, s);
+    		 		 	            x.reset();
+    		 		 	        }
+    		 		 	    });
+    		 		 	});
+    		 		 	this.receiversContainer.setAttribute('aria-label', 'Notify:');
+						this.inputBox = dijit.byId(this.form().name+'_typeahead');
+    		 		 </script>
+    		 	</div>
+    		 </td>
+    	</tr>
+		<tr class="lotusFormFieldRow">
+			<td class="lotusFormField" style="padding-bottom:0px;">
+				<label for="notification_message">Message:</label>
+			</td>
+		</tr>
+		<tr class="lotusFormFieldRow">
+			<td class="lotusFormField">
+				<textarea id="notification_message" name="description" rows="10" style="width:80%" title="Message:"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="lotusFormFooter">
+				<div class="submitArea">
+				<input class="lotusFormButton lotusBtnDisabled blogsPaddingRight" disabled="true" name="sendBtn" type="button" onclick="return postNotificaton();" value='Send'></input>
+				<input class="lotusFormButton blogsPaddingRight" name="cancelBtn" onclick="return WeblogEntryActionForms.cancel('notificationForm', 'focusMoreActionsLink');" type="button" value='Cancel' />
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</form>
+<form name="quarantineForm" style="display:none" action="/developerworks/community/blogs/roller-services/json/quarantine_entry" class="lotusForm" role="application">
+	<div name="error_messages" class="lotusMessage" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconError16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Error icon" /><span class="lotusAltText">Error icon</span><span name="message"></span>
+	</div>
+	<div name="warning_messages" class="lotusMessage lotusWarning" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconWarning16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Warning icon" /><span class="lotusAltText">Warning icon</span><span name="message"></span>
+	</div>
+	<div name="info_messages" class="lotusMessage lotusInfo" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconAttention16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Information icon" /><span class="lotusAltText">Information icon</span><span name="message"></span>
+	</div>
+	<input type="hidden" name="entry" value="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio"/>
+	<input type="hidden" name="dangerousurlnonce" value=""/>
+	<input type="hidden" name="lang" value="en" />
+	<input type="hidden" name="version" value="250" />
+	<table width="100%" class="lotusFormTable" role="presentation"><tbody>
+		<tr><td colspan="2" class="lotusFormTitle"><h2>Quarantine this entry</h2></td></tr>
+		<tr>
+			<td width="5%"> </td>
+			<td><label for="quarantine_comment">Provide a reason for quarantining this blog entry (optional):</label></td>
+		</tr>
+		<tr>
+			<td width="5%"> </td>
+			<td><textarea id="quarantine_comment" name="comment" rows="10" style="width:80%" title='Provide a reason for quarantining this blog entry (optional):'></textarea></td>
+		</tr>
+		<tr><td colspan="2" class="lotusFormFooter">
+			<div class="submitArea">
+				<input class="lotusFormButton" name="submitBtn" type="button" onclick="return postQuarantine();" value='Submit'/>
+				<input class="lotusFormButton" name="cancelBtn" type="button" onclick="return WeblogEntryActionForms.cancel('quarantineForm', 'quarantineThisEntryLink');" value='Cancel'/>
+			</div>
+		</td></tr>
+	</tbody></table>
+</form>
+<form name="deleteForm" style="display:none" action="/developerworks/community/blogs/roller-services/json/delete_entry" class="lotusForm" role="application">
+	<input type="hidden" name="entry" value="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/raspberry_pi_python_nginx_and_gpio"/>
+	<input type="hidden" name="dangerousurlnonce" value=""/>
+	<input type="hidden" name="lang" value="en" />
+</form>
+
+<div id="actionforms_globalmsgs" style="display:none">
+	<div name="error_messages" class="lotusMessage" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconError16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Error icon" /><span class="lotusAltText">Error icon</span><span name="message"></span>
+	</div>
+	<div name="warning_messages" class="lotusMessage lotusWarning" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconWarning16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Warning icon" /><span class="lotusAltText">Warning icon</span><span name="message"></span>
+	</div>
+	<div name="info_messages" class="lotusMessage lotusInfo" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconAttention16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Information icon" /><span class="lotusAltText">Information icon</span><span name="message"></span>
+	</div>
+	<div name="confirm_messages" class="lotusMessage lotusConfirm" style="display:none" role="alert">
+		<img class="lconnSprite lconnSprite-iconConfirmation16" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20140212.165906" alt="Confirmation icon" /><span class="lotusAltText">Confirmation icon</span><span name="message"></span>
+	</div>
+</div>
+
+<script language="javascript">
+function keepSessionAlive(){dojo.xhrGet({url: '/developerworks/community/blogs/roller-services/json/authcheck'});}
+WeblogEntryActionForms = {
+    opened: {count:0},
+	type: function(form) {
+		t=dojo.query('[name="_type"]', form);
+		if(t.length>0){
+			return t[0].innerHTML;
+		}
+		else {
+			return '';
+		}
+	},
+	close: function(form) {
+		form.style.display='none';
+		this.reset(form);
+
+		if(this.opened[form.name]) {
+	    	this.opened[form.name] = false;
+	    	this.opened.count--;
+	    	if(this.opened.count == 0) {
+	    		if(this.keepAliveTimer.isRunning) {
+					this.keepAliveTimer.stop();
+				}
+	    	}
+	    }
+	},
+    reset: function(form) {
+    	form.reset();
+
+    	// clear messages
+    	var mt = ['error', 'warning', 'info'];
+    	for(var i=0; i<mt.length; i++) {
+    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', form);
+	    	if(x.length > 0) {
+	    	    x[0].style.display='none';
+	    	    x=dojo.query('[name="message"]', x[0]);
+	    	    if(x.length > 0) x[0].innerHTML='';
+	    	}
+    	}
+
+        var t=this.type(form);
+        if(t=='comment') {
+        	form.content.innerHTML='';
+        	var x = dojo.byId("commentspanel_preview");
+        	if(x) dojo.byId("commentspanel_preview").style.display = "none";
+        }
+        else if(t=='notification') {
+            form.receivers.clear();
+        }
+        else if(t=='notification_ex') {
+        	form.receivers.clear();
+
+        	var fcb = dijit.byId(form.name+'_filteringcheckbox');
+        	fcb.peopleSelected = new Object();
+        	if (fcb.currPage > 1) {
+        	    fcb.currPage = 1;
+        	    fcb.gotList = false;
+        	}
+        	fcb.clearSearch();
+        }
+    },
+    init: function(form) {
+        var t=this.type(form);
+        if(t=='notification') {
+            var dojoInit = form.getAttribute('dojoInit');
+            if(dojoInit == 'false') {
+                dojo.parser.parse(form);
+								form.setAttribute('dojoInit', 'true');
+            }
+            if(form.description.value == '') {
+                form.description.value = 'Hi-  I thought you might be interested in this blog entry.';
+            }
+    	}
+    	else if(t=='notification_ex') {
+    	    var dojoInit = form.getAttribute('dojoInit');
+            if(dojoInit == 'false') {
+            	dojo.parser.parse(form);
+            	            	form.setAttribute('dojoInit', 'true');
+            }
+
+        	var fcb = dijit.byId(form.name+'_filteringcheckbox');
+        	if(!fcb.gotList) fcb.getList();
+        	fcb.setDisabled(false);
+
+        	if(form.description.value == '') {
+                form.description.value = 'Hi-  I thought you might be interested in this blog entry.';
+            }
+        }
+    },
+    hideAll: function() {
+    	document.forms['commentForm'].style.display='none';
+    	document.forms['notificationForm'].style.display='none';
+    	    	document.forms['quarantineForm'].style.display='none';
+
+    	var t = dojo.byId('actionforms_globalmsgs');
+    	if(t) {
+    	    t.style.display = 'none';
+    	}
+    },
+    toggle: function(name, fc) {
+    	var f = document.forms[name];
+    	if(f.style.display != 'none'){
+    	    return;
+    	}
+
+    	this.init(f);
+
+    	this.hideAll();
+	    f.style.display='';
+	    if(typeof fc != 'undefined') {
+		    var fcs = fc.split(",");
+			var bFocused = false;
+			for(var i = 0; i < fcs.length; i++) {
+			    var tfc = fcs[i];
+				var x = dojo.query('[name="'+tfc+'"]', f);
+	            if(x.length>0) {
+				    x[0].focus();
+					bFocused = true;
+					break;
+				}
+			}
+			for(var i = 0; i < fcs.length; i++) {
+			    var tfc = fcs[i];
+				var x = dojo.query('[id="'+tfc+'"]', f);
+	            if(x.length>0) {
+				    x[0].focus();
+					bFocused = true;
+					break;
+				}
+			}
+	    }
+
+	    if(!this.opened[name]) {
+	    	this.opened[name] = true;
+	    	this.opened.count++;
+	    }
+
+	    if(typeof this.keepAliveTimer == 'undefined') {
+			this.keepAliveTimer = new dojox.timing.Timer(60000);
+			this.keepAliveTimer.onTick = function() {keepSessionAlive();};
+		}
+		if(!this.keepAliveTimer.isRunning) {
+			this.keepAliveTimer.start();
+		}
+    },
+    cancel: function(name, fc) {
+    	WeblogEntryActionForms.close(document.forms[name]);
+    	if(typeof fc != 'undefined') dojo.byId(fc).focus();
+
+    	return false;
+    },
+    message: function(form, data, type) {
+        // clear messages
+		var gm = dojo.byId('actionforms_globalmsgs');
+		
+    	var mt = ['error', 'warning', 'info'];
+    	for(var i=0; i<mt.length; i++) {
+    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', form);
+	    	if(x.length > 0) {
+	    	    x[0].style.display='none';
+	    	    x=dojo.query('[name="message"]', x[0]);
+	    	    if(x.length > 0) x[0].innerHTML='';
+	    	}else{
+				//no form message display, use global message
+				x=dojo.query('[name="' + mt[i] + '_messages"]', gm);
+				if(x.length > 0) {
+    	    	    x[0].style.display='none';
+    	    	    x=dojo.query('[name="message"]', x[0]);
+    	    	    if(x.length > 0) x[0].innerHTML='';
+	    		}
+			}
+    	}
+
+        var x=dojo.query('[name="' + type + '_messages"]', form);
+        if(x.length>0) {
+            x[0].style.display='';
+            x=dojo.query('[name="message"]', x[0]);
+            if(x.length>0) {
+                x[0].innerHTML=data;
+				x[0].setAttribute('role', 'alert');
+            }
+        }else{
+			//no form message display, use global message
+			x=dojo.query('[name="' + type + '_messages"]', gm);
+			x[0].style.display='';
+            x=dojo.query('[name="message"]', x[0]);
+            if(x.length>0) {
+                x[0].innerHTML=data;
+				x[0].setAttribute('role', 'alert');
+            }
+			gm.style.display='';
+		}
+    },
+    showCommentMessage: function(data) {
+        var gm = dojo.byId('actionforms_globalmsgs');
+
+        var mt = ['error', 'warning', 'info', 'confirm'];
+    	for(var i=0; i<mt.length; i++) {
+    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', gm);
+	    	if(x.length > 0) {
+	    	    x[0].style.display='none';
+	    	    x=dojo.query('[name="message"]', x[0]);
+	    	    if(x.length > 0) x[0].innerHTML='';
+	    	}
+    	}
+
+    	var x=dojo.query('[name="confirm_messages"]', gm);
+    	if(x.length > 0) {
+    	    x[0].style.display='';
+    	    x=dojo.query('[name="message"]', x[0]);
+	    	if(x.length > 0) x[0].innerHTML=data;
+    	}
+
+    	gm.style.display='';
+    },
+    disable: function(form, b) {
+        var t=dojo.query('[name$="Btn"]');
+        for(var i=0; i<t.length; i++) t[i].disabled=b;
+    },
+    ajaxPost: function(form, postExec, msgs) {
+    	form.dangerousurlnonce.value=window.__security_nonce;
+    	this.message(form, msgs.running + '<div class="lotusLoading lotusLeft"></div>', 'info');
+    	this.disable(form, true);
+    	dojo.xhrPost({
+	        url: form.action,
+	        form: form,
+	        handleAs: 'json-comment-optional',
+	        load: function (data, ioArgs) {
+	            if(data.success) {
+	            	WeblogEntryActionForms.close(form);
+
+	            	var gm = dojo.byId('actionforms_globalmsgs');
+	            	gm.style.display='none';
+			        var mt = ['error', 'warning', 'info', 'confirm'];
+			    	for(var i=0; i<mt.length; i++) {
+			    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', gm);
+				    	if(x.length > 0) {
+				    	    x[0].style.display='none';
+				    	    x=dojo.query('[name="message"]', x[0]);
+				    	    if(x.length > 0) x[0].innerHTML='';
+				    	}
+			    	}
+
+	            	var t=WeblogEntryActionForms.type(form);
+	            	if(t=='notification' || t=='notification_ex') {
+				    	var x=dojo.query('[name="confirm_messages"]', gm);
+				    	if(x.length > 0) {
+				    	    x[0].style.display='';
+				    	    x=dojo.query('[name="message"]', x[0]);
+					    	if(x.length > 0) {
+					    		x[0].innerHTML='The notification has been sent.';
+					    		x[0].setAttribute('role', 'alert');
+					    	}
+				    	}
+
+				    	gm.style.display='';
+	            	}
+	            	if(t=='flagInappropriateEntry') {
+				    	var x=dojo.query('[name="confirm_messages"]', gm);
+				    	if(x.length > 0) {
+				    	    x[0].style.display='';
+				    	    x=dojo.query('[name="message"]', x[0]);
+					    	if(x.length > 0) {
+					    		x[0].innerHTML='The blog entry has been flagged and submitted for review.';
+					    		x[0].setAttribute('role', 'alert');
+					    	}
+				    	}
+
+				    	gm.style.display='';
+	            	}
+	            }
+	            else {
+	                if(data.error) {
+	                    if('session timeout' == data.error) {
+	                        window.__security_nonce = data.nonce;
+	                        WeblogEntryActionForms.message(form, 'We were unable to process your request due to a session timeout.  Please try again.', 'error');
+	                    } else {
+	            			WeblogEntryActionForms.message(form, data.error, 'error');
+	            		}
+	            	}
+	            	else {
+	            		WeblogEntryActionForms.message(form, 'This function is only available to authenticated users. Please log in first.', 'error');
+	            	}
+	            }
+	            WeblogEntryActionForms.disable(form, false);
+	            if(data.success && typeof postExec != 'undefined') postExec(data);
+	        },
+	        error: function (error, ioArgs) {
+	            WeblogEntryActionForms.message(form, msgs.fail, 'error');
+	            WeblogEntryActionForms.disable(form, false);
+	        }
+	    });
+    }
+};
+
+document.forms['commentForm'].onsubmit=function(){
+    if(typeof this.submited != 'undefined' && this.submited) {
+        return false;
+    }
+	this.dangerousurlnonce.value=window.__security_nonce;
+	this.content.value = this.content.value.replace(/^\s+|\s+$/g, '');
+	if(this.content.value.length == 0){
+		showDialog('Please enter a comment.', 'comment_content');//alert
+		this.content.focus();
+		return false;
+	}else{
+	  this.submited = true;
+	  return true;
+	}
+};
+function postNotificaton(){
+	WeblogEntryActionForms.ajaxPost(document.forms['notificationForm'], function(){dojo.byId('focusMoreActionsLink').focus();},
+		{fail: 'Failed to send the notification.',
+		 running: 'Sending Notification...:'});
+	return false;
+};
+function postQuarantine(){
+	 	WeblogEntryActionForms.ajaxPost(document.forms['quarantineForm'], function(){window.location = 'https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/linux_openvpn_gogoc_freenet6_and_ipv6_part2?lang=en';},
+		{fail: 'Fail to submit the request. Server error.',
+		 running: 'Submitting...'});
+	return false;
+};
+
+function postDelete(){
+	 	WeblogEntryActionForms.ajaxPost(document.forms['deleteForm'], function(){window.location = 'https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/linux_openvpn_gogoc_freenet6_and_ipv6_part2?lang=en';},
+		{fail: 'Fail to submit the request. Server error.',
+		 running: ''});
+	return false;
+};
+
+
+if(window.location.hash == '#action=send_notification') {
+    dojo.addOnLoad(function(){WeblogEntryActionForms.toggle('notificationForm', 'description');});
+}
+
+if(currentLogin.auth) {
+dojo.addOnLoad(function() {
+    	var http;
+	if(typeof XMLHttpRequest == 'undefined') http=new ActiveXObject("Microsoft.XMLHTTP");
+	else http=new XMLHttpRequest();
+	http.open('GET', '/developerworks/community/blogs/roller-services/json/user_weblogs/?maxnamelen=20', true);
+	http.onreadystatechange = function() {
+		if (http.readyState == 4 && http.status == 200) {
+			eval(http.responseText);
+			if(typeof loginuser_weblogs != 'undefined' && loginuser_weblogs != null && loginuser_weblogs.length > 0) {
+			    var f = document.forms['commentForm'];
+				var x = dojo.query('[name="select_blogs"]', f);
+				if(x.length > 0) {
+					var s = ['<div><input type="checkbox" id="postAsTrackback"',
+						           'onclick="if(this.checked) {this.form.target.disabled = false;}else{this.form.target.disabled=true;}" ',
+						           'name="postAsTrackback" style="margin:0px 5px;"/>',
+						     '<label for="postAsTrackback" style="font-weight: normal;">Add this as a new entry in my blog:</label>',
+						     '<select title="Target" name="target" disabled="true" style="margin:0px 5px;">'].join('');
+					for(var i=0; i<loginuser_weblogs.length; i++) {
+					    var _t = loginuser_weblogs[i].name;
+						if(loginuser_weblogs[i].isIdeationBlog) {
+						    _t = '_title_ (Ideation Blog)';
+							_t = _t.replace('_title_', loginuser_weblogs[i].name);
+						}
+						if(loginuser_weblogs[i].isCommunityBlog) {
+						    _t = '_title_ (Community Blog)';
+							_t = _t.replace('_title_', loginuser_weblogs[i].name);
+						}
+					    s = s + '<option value="' + loginuser_weblogs[i].handle + '" ' + ((typeof selectedTarget != 'undefined' && loginuser_weblogs[i].handle == selectedTarget)?'checked':'') + '>' + lconn.blogs.utils.escapeHTML(_t) + '</option>';
+					}
+					s = s + '</select></div>';
+					x[0].innerHTML = s;
+
+					if(typeof selectedTarget != 'undefined' && selectedTarget) {
+						f.target.value = selectedTarget;
+						if(f.target.value == selectedTarget) {
+							f.postAsTrackback.checked = true;
+							f.target.disabled = false;
+						}
+					}
+				}
+			}
+		}
+	};
+	http.send(null);
+});
+}
+</script>
+</div>
+
+				<p></p>
+				<a name="commentsTarget"></a>
+								
+								    <div id="commentspanel_list">
+						    <div class="lotusBoard"  id="comments" >
+						    						        <div style="border-top: 2px solid black;"><h4 style="margin-top:8px;">Comments (0)</h4></div>
+						        						    
+													    
+							<!-- Dont show paging when there are no comments -->
+											            	
+							
+						    
+						   
+						   						   
+						    								<div class="lotusPost" style="border-top:0 none;">
+																			<span class="lotusInactive"><em>There are no comments to display</em></span>
+																		<script language="javascript">if(currentLogin.auth) {document.write('<div style="display:none">');} else {document.write('<div>');}</script>
+										<a class="lotusAction"  style="display: none;"  title="Login to access this feature" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2Fdougielawson%2Fentry%2Fraspberry_pi_python_nginx_and_gpio%3Flang%3Den%23action%3Daddcomment">Add a Comment</a>
+									<script language="javascript">document.write('</div>'); if(currentLogin.auth) {document.write('<div>');} else {document.write('<div style="display:none">');}</script>
+																		<script language="javascript">document.write('</div>');</script>
+					       		</div><!--end post-->
+							
+								</div>
+
+						    </div>
+
+		        		        		    </div> <!-- end entries -->
+
+		<!-- Dont show paging when there are no entries -->
+								<div class="" role="navigation" style="font-size: 0.9em;" aria-label="Page navigation">
+			                    <ul class="inlinelist lotusInlinelist">
+    	<li class="lotusFirst">
+	    	        <a href="https://www.ibm.com/developerworks/community/blogs/dougielawson/entry/linux_openvpn_gogoc_freenet6_and_ipv6_part2?lang=en" title="Previous Entry">Previous Entry</a>
+	 	    	</li>
+    	<li>
+        <a href="/developerworks/community/blogs/dougielawson?maxresults=15&lang=en">Main</a>
+        </li>
+        <li>
+	    			<span class="disabled">Next Entry</span>
+	            </li>
+    </ul>
+		    </div>
+					
+		<div class="lotusFeeds" role="list">
+								<span role="listitem">
+				<a id="entryFeedLink" href='/developerworks/community/blogs/roller-ui/rendering/feed/dougielawson/entries/atom?lang=en' title="Entries feed for this blog" class="lotusFeed lotusAction" >Feed for Blog Entries <span class="lotusAltText">&#x25bc;</span></a>
+			</span>
+			<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+			<span role="listitem">
+				<a id="commentFeedLink" href='/developerworks/community/blogs/roller-ui/rendering/feed/dougielawson/comments/atom?lang=en' title="Comments feed for this blog" class="lotusFeed lotusAction"  style="background: transparent; padding-left:7px;">Feed for Blog Comments <span class="lotusAltText">&#x25bc;</span></a>
+		    </span>
+		    		
+					<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+			<span role="listitem">
+				<a id="entryCommentFeedLink" href='/developerworks/community/blogs/roller-ui/rendering/feed/dougielawson/entrycomments/raspberry_pi_python_nginx_and_gpio/atom?lang=en' title="Atom Entry Comments" class="lotusFeed lotusAction"  style="background: transparent; padding-left:7px;">Feed for Comments for this Entry <span class="lotusAltText">&#x25bc;</span></a>
+			</span>
+				</div>
+
+       </div> <!-- end content -->
+</div><!-- end main -->
+
+ 	<script language="javascript">  
+		 var isEntry = true;
+		 
+		 dojo.addOnLoad(function(){
+			var t = document.getElementById('TOGGLE_comment_rating_${item.id}_widget');
+			if(t) {
+				var p = t.parentNode;
+				p.removeAttribute('aria-live');
+				var h = t.innerHTML;
+				p.innerHTML = '<a class="lotusLikeAction" aria-disabled="true" href="javascript:;" onclick="return false" title="' +  'Like is disabled in comment preview.' + '">' + h + '</a>';
+			}
+		});
+ 	</script>
+
+	<script language="javascript">  
+		 var isComm = false;
+ 	</script>
+
+<script language="javascript">  
+if(isEntry){
+	readTrackerMetrics = {};
+	readTrackerMetrics.contentId = "d0fa56a0-0a44-4689-929a-8bca36a001f2";
+	readTrackerMetrics.contentTitle = "Raspberry Pi. Python, NGINX and GPIO";
+	readTrackerMetrics.contentContainerId = "6e326c25-df5f-4c2f-b2ee-d066d4251095";
+	readTrackerMetrics.contentContainerTitle = "The Darkside of the IMS Systems Progammer";
+	readTrackerMetrics.itemType="ENTRY";
+
+}else{
+	// metrics variables, it will be used in footer
+	readTrackerMetrics = {};  
+	readTrackerMetrics.contentId="6e326c25-df5f-4c2f-b2ee-d066d4251095";
+	readTrackerMetrics.contentTitle = "The Darkside of the IMS Systems Progammer";
+	readTrackerMetrics.itemType="BLOG";
+	}
+		
+if(isComm){
+	readTrackerMetrics.communityId = "$comm.assocId";
+}
+</script>
+
+    
+        
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="lotusFooter" class="lotusFooter" role="contentinfo">
+	
+			
+			<script type="text/javascript">
+   function handleHeaderInit(info) {
+      if (info && info.user) {
+         
+         dojo.byId('usernameText').innerHTML = info.user;
+         dojo.byId("headerUserText").style.display = "";
+         dojo.attr("headerUserName", "src", "/developerworks/community/blogs/static/20140212.165906!en/nav/templates/menu/user.jsp?appName=blogs&username=" + info.user + "&userid=" + info.userId);
+
+         if (dojo.byId("headerSharebox"))
+            dojo.byId("headerSharebox").style.display = "";
+
+         var a = dojo.byId("logoutLink");
+         a.replaceChild(document.createTextNode("Log Out"), a.firstChild);
+         a.href =  "https:\/\/www.ibm.com\/developerworks\/community\/blogs\/roller-ui\/logout-redirect.jsp"
+         a.style.display = "none";
+
+         dojo.query("li", dojo.byId("headerMenuContainer")).forEach(function(el) {if (el.previousSibling) dojo.removeClass(el, "lotusFirst");});
+
+         var a = dojo.byId("lotusBannerCommunitiesLink");
+         if (a) {
+             var menu = dijit.byId(dojo.attr(a, "aria-owns"));
+             var href = "\/developerworks\/community\/blogs\/static\/20140212.165906!en\/nav\/templates\/menu\/communities.jsp?authenticated=true";
+             if (menu)
+                menu.attr("href", href);
+             else
+                dojo.attr(a, "src", href);
+         }
+
+         lconn.core.header.apps.updateBannerByRoles();
+      }
+   }
+   dojo.subscribe("lconn/core/header/init", handleHeaderInit);
+</script><script type="text/javascript">
+   function loadConnectionsLanguageSelector() {
+      try {
+         dojo.require("lconn.core.header");
+         lconn.core.header.enableLanguageSelector("languageSelectorText", {"en":"English","zh":"\u4e2d\u6587 (\u200f\u7b80\u4f53)","ja":"\u65e5\u672c\u8a9e","es":"Espa\u00f1ol","pt_br":"Portugu\u00eas (\u200fBrasil)","ru":"\u0420\u0443\u0441\u0441\u043a\u0438\u0439","BD":"BD"},
+            "conxnsCookie", "", -1);
+      } catch (e) {
+         console.error(e);
+      }
+   }
+   if (dojo.exists("lconn.core.header") && !dojo.exists("_skipConnectionsLanguageSelector"))
+      dojo.addOnLoad(loadConnectionsLanguageSelector);
+</script><script type="text/javascript">
+      dojo.require("lconn.core.header.apps");
+      dojo.require("lconn.core.auth");
+    </script>
+
+	<div id="ibm-footer1"></div>
+<div id="footer_div"></div>
+<div id="footer_scripts_div"></div>
+		
+<!--script type="text/javascript" src="//dw1.s81c.com/common/stats/stats.js"></script -->
+<script id="stats" type="text/javascript"></script>
+<script>if (window.location.href.search(/\/(mydeveloperworks|community)\/(wikis)/i) == -1){ document.getElementById("stats").src="//dw1.s81c.com/common/stats/stats.js";}</script>
+<noscript><img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript>
+<!--<script type="text/javascript" src="/developerworks/community/connections/resources/web/_js/?include=dojo.io.script.js~&etag=W8wd1eA_en_US&lang=en&country=us">//</script> -->
+<script type="text/javascript" src="/developerworks/js/dw-mf/viper-www.js">//</script>
+<script type="text/javascript" src="/developerworks/js/dw-lc/xmlc.js">//</script>
+<script type="text/javascript">
+// turn social bookmarking on
+ibmweb.config.set({ sbs: { enabled: true }});
+ibmweb.config.sbs.print = true;
+ibmweb.config.sbs.email = true;
+ibmweb.config.noDojoLocaleOverride = true;
+</script>
+		
+
+<script>
+	function showHideFromUpdates() {	
+	if (document.getElementById("widget-container-col2posts").innerHTML=="") {
+		setTimeout(function() { showHideFromUpdates(); },500);
+		return;
+	}
+	
+	var yn = false;
+	var yn = false;
+	var el = dojo.byId("col2Wrapper");
+	var els_r = dojo.query(".FOR_UPDATES", el);
+	yn = els_r.length == 0;	
+		
+		if (yn) {
+			COM.utils.hide("mainpageTabs"); 
+			
+			selectWidgetTab("overviewTab");
+		} else {
+			COM.utils.show("mainpageTabs"); 
+			
+			selectWidgetTab("recentTab");	
+		}
+	}
+		
+</script>
+<script type="text/javascript">
+	if (lconn.files && lconn.files.scenehelper) {
+		lconn.files.scenehelper.applyWelcome = function() {};	
+	}
+	if (dojo && dojo.config && djConfig && djConfig.dojoBlankHtmlUrl)
+		dojo.config["dojoBlankHtmlUrl"] = djConfig.dojoBlankHtmlUrl;	
+</script> 
+       
+<script type="text/javascript">
+	if (lconn.wikis && lconn.wikis.scenes) {
+		lconn.wikis.scenes.applyWelcome = function() {};	
+	}
+</script>
+
+<script type="text/javascript">
+	/*
+	var initialDojoLocale = djConfig.locale; 
+	//if (console) console.log("locale:"+initialDojoLocale);
+	if (dojo && dojo.i18n) {
+		dojo.i18n.normalizeLocale=function(_a){	
+		if (_a == "pt-us") _a="pt-br";	
+		//var _b=_a?_a.toLowerCase():djConfig.locale;
+		var _b=_a?_a.toLowerCase():initialDojoLocale;
+		//if (console) console.log("normalizeLocale:"+_b);
+		if(_b=="root"){
+		_b="ROOT";
+		}
+		return _b;
+		};
+	}
+	*/
+</script>
+</div><!--end footer-->
+
+<script language="javascript">
+if(!(typeof currentLogin.name == 'undefined' || currentLogin.name == null || currentLogin.name == '')) {
+	dojo.publish("lconn/core/header/init", [{
+		user: currentLogin.name, 
+		userId: currentLogin.extid, 
+		isModerator: currentLogin.globalModerator
+	}]);
+}
+</script>
+
+<!-- build 20130514084652 -->
+	
+<div id="datetagdiv" 
+   style="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;">
+</div>
+
+<script language="javascript">
+if(currentLogin.globalAdmin) activateFooterLinks();
+
+var metricsLinks = dojo.query('.lotusMetricsReaderLink');
+for(var i = 0; i < metricsLinks.length; i++) {
+    metricsLinks[i].style.display = currentLogin.metricsReader ? '' : 'none';
+}
+
+if(typeof openHelpWindow == 'undefined') {
+    var helpWindow;
+	window.openHelpWindow = function (url, width, height) {
+		 if (!width) {
+			 width = window.screen.width / 4;
+			 if (width < 950) width = 950;
+		 }
+		 if (!height) {
+			 height = window.screen.height / 4;
+			 if (height < 550) height = 550;
+		 }
+		 if (typeof(helpWindow) != "undefined") helpWindow.close();
+		 var options = 'height=' + height + ',width=' + width + ',status=yes,toolbar=yes,menubar=no,location=yes,scrollbars=yes,resizable=yes';
+		 helpWindow = window.open(BlogsBaseUrl + url, 'help', options);
+		 if (window.focus) helpWindow.focus();
+	};
+}
+
+// metrics read tracker
+if (!dojo.exists("com.ibm.lconn.layout.track"))
+{
+dojo.require("com.ibm.lconn.layout.track"); // load track js api, each application should already load the common js jar that include this api
+}
+
+	// metrics read tracker
+	var metrics = {};
+	var extra = {};
+	metrics.source=appName; // retrieve from the common header
+	extra.contentLink = window.location.href; 
+	
+	if(!(typeof readTrackerMetrics == "undefined")){
+		metrics.itemType = readTrackerMetrics.itemType;
+		metrics.communityId = readTrackerMetrics.communityId;
+		metrics.contentId = readTrackerMetrics.contentId;
+		extra.contentTitle = readTrackerMetrics.contentTitle;
+		extra.contentContainerId = readTrackerMetrics.contentContainerId;
+		extra.contentContainerTitle = readTrackerMetrics.contentContainerTitle;
+	}
+	
+	if(typeof metrics.itemType == "undefined"){
+		metrics.itemType="BLOGS"; // define for each web page
+	} 
+	
+	if(typeof metrics.contentId == "undefined"){
+		metrics.contentId="BLOGS"; // define for each web page
+	}
+	
+	if(typeof currentLogin.extid != "undefined"){
+		metrics.userId = currentLogin.extid;
+	}
+	
+	metrics.extra = extra;
+	
+	var track = com.ibm.lconn.layout.track;
+	track.read(metrics.contentId, metrics.itemType, metrics); // call tracker js to send read event
+</script>
+
+<script type="text/javascript">
+if(typeof dojo.getObject('com.ibm.ajax.auth.interceptDojoXhr') == 'function') {
+	dojo.addOnLoad(function() {
+    var ciaa = com.ibm.ajax.auth;
+    ciaa.interceptDojoXhr(function(){return true;});
+    ciaa.setAuthenticationHandler(function(response, ioArgs, onauthenticated){
+        var racp = window.location.href.replace(/,/g,"%2C");
+        window.location.replace(getLoginRedirectURL(racp));
+    });
+	});
+}
+</script>
+
+<script type="text/javascript">
+	var lconn_core_thirdPartySearchEngines = []
+</script>
+
+    
+</div><!-- frame -->
+
+</body>
+<script language="javascript">
+if(dojo.isIE && lconn.blogs.utils.applyDojoOnLoads) {lconn.blogs.utils.applyDojoOnLoads();}
+</script>
+
+
+
+</html>
